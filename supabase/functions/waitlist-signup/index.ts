@@ -152,8 +152,7 @@ async function sendConfirmationEmail(email: string, token: string) {
     throw new Error("RESEND_API_KEY not configured");
   }
 
-  const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-  const confirmUrl = `${supabaseUrl}/functions/v1/confirm-email?token=${token}`;
+  const confirmUrl = `https://stagent.supabase.co/functions/v1/confirm-email?token=${token}`;
 
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
