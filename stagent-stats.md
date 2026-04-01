@@ -132,3 +132,57 @@
 - Production LOC = total TypeScript minus test files
 - Post-MVP shipped: dual-runtime, cost governance, agent self-improvement, parallel/swarm/loop workflows, permission presets, E2E tests, playbook docs
 - Feature scope expanded from 30 → 53 as post-MVP categories grew
+
+---
+
+## [2026-04-01 00:15] Metrics Snapshot — Vision Alignment & 5-Runtime
+
+| Category | Metric | Value |
+|----------|--------|-------|
+| LOC | Production | 84,670 |
+| LOC | Tests | 8,512 |
+| LOC | **Total** | **93,182** |
+| Tests | Vitest | 409 |
+| Tests | **Total** | **409** |
+| Git | Commits | 213 |
+| Git | Hours elapsed | 603.9 |
+| Git | Commits/hour | 0.35 |
+| Git | LOC/hour | 154.3 |
+| Features | Completed | 97/103 |
+| Infra | API routes | 112 |
+| Infra | DB tables | 27 |
+| Infra | UI components | 244 |
+| Infra | Pages | 34 |
+| Infra | Agent profiles | 52 |
+
+### Feature Status
+- 97 completed, 3 in-progress, 1 deferred, 2 planned
+- In-progress: dynamic-slash-commands, runtime-validation-hardening, profile-environment-sync
+- Deferred: npm-publish-readiness
+- Planned: direct-runtime-prompt-caching, direct-runtime-advanced-capabilities
+- Feature scope expanded from 53 → 103 with 8 new initiative areas
+
+### Key Milestones Since Last Snapshot (13 days)
+- **5 AI runtimes**: Claude Agent SDK, Codex App Server, Anthropic Direct, OpenAI Direct, Ollama
+- **Smart runtime router**: auto-selects best runtime per task
+- **Chat system**: full conversation UI with multi-agent routing and Codex engine
+- **Living Book**: 9-chapter "AI Native" book with markdown pipeline and self-updating chapters
+- **Vision alignment**: heartbeat scheduler, episodic memory, multi-channel delivery (Slack/Telegram), bidirectional channel chat, agent async handoffs
+- **21+ agent profiles**, 6 workflow patterns, browser automation (Chrome DevTools + Playwright)
+
+### Trend (vs previous snapshot — 13 days of development)
+- ↑ +43,512 LOC (49,670 → 93,182)
+- ↑ +97 tests (312 → 409)
+- ↑ +120 commits (93 → 213)
+- ↑ +46 features completed (51/53 → 97/103)
+- ↑ +60 API routes (52 → 112)
+- ↑ +17 DB tables (10 → 27)
+- ↑ +95 UI components (149 → 244)
+- ↑ +5 pages (29 → 34)
+- ↑ +18 agent profiles (34 → 52)
+
+### Notes
+- LOC counted via `find + wc -l` (tokei not installed)
+- Production LOC = all .ts/.tsx in src/ minus test files
+- Feature scope nearly doubled (53 → 103) with vision alignment initiatives
+- 5-runtime architecture is the most significant platform evolution since the Next.js rewrite

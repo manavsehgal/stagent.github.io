@@ -22,7 +22,7 @@ export interface TimelineItem {
 
 export const metrics = [
   { label: 'Lines of Code', target: 300, suffix: 'K+' },
-  { label: 'AI Agents', target: 30, suffix: '+' },
+  { label: 'AI Agents', target: 52, suffix: '+' },
   { label: 'Production Systems', target: 8, suffix: '' },
   { label: 'Projects', target: 18, suffix: '+' },
   { label: 'Blog Articles', target: 68, suffix: '+' },
@@ -212,20 +212,20 @@ export const timeline: TimelineItem[] = [
   {
     year: '2026',
     project: 'Stagent',
-    role: 'Governed AI agent operations workspace',
+    role: 'The operating system for AI-native business',
     description:
-      'Shipped a local-first AI operations workspace with 51 features across 11 operator surfaces — dual-runtime execution via Claude Agent SDK and Codex App Server, full cost governance, reusable agent profiles, workflow blueprints, and a human-in-the-loop inbox.',
+      'Shipped a local-first AI business operating system that orchestrates agents across your entire company — with 5-runtime execution, smart routing, governance, cost controls, chat UI, multi-channel delivery (Slack/Telegram), and a living book documenting the journey.',
     achievements: [
-      'Shipped 51 features across 11 coordinated operator surfaces in 12 days',
-      'Dual-runtime execution with Claude Agent SDK and OpenAI Codex App Server',
-      'Full cost governance with budget enforcement, 6 workflow patterns, and 13+ reusable agent profiles',
+      'Shipped 97 features across 11 operator surfaces in 25 days — open source, local-first',
+      '5-runtime architecture with smart router, 21+ agent profiles, and 6 workflow patterns',
+      'Full chat system, heartbeat scheduling, multi-channel delivery, and human-in-the-loop governance',
     ],
-    stats: '49.7K LOC · 312 tests · 51/53 features shipped',
+    stats: '93.2K LOC · 409 tests · 97/103 features shipped',
     techWave: 'The Harness Layer',
     techCategories: [
       { label: 'Frontend', items: ['Next.js 16', 'React 19', 'Tailwind v4', 'shadcn/ui'] },
       { label: 'Backend', items: ['TypeScript', 'SQLite', 'Drizzle ORM'] },
-      { label: 'AI', items: ['Claude Agent SDK', 'Codex App Server', 'Multi-Agent'] },
+      { label: 'AI', items: ['Claude Agent SDK', 'Codex', 'Anthropic Direct', 'OpenAI Direct', 'Ollama'] },
       { label: 'Infrastructure', items: ['Vitest', 'Turbopack', 'SSE', 'E2E Tests'] },
     ],
     status: 'active',
