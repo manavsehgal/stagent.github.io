@@ -7,6 +7,7 @@ import react from '@astrojs/react';
 
 export default defineConfig({
   site: 'https://stagent.io',
+  trailingSlash: 'always',
   integrations: [mdx(), sitemap({
     filter: (page) =>
       !page.includes('/confirmed') && !page.includes('/og'),

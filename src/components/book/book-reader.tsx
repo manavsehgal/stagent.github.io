@@ -368,7 +368,7 @@ export function BookReader({
           </a>
           <span className="text-text-muted/30 hidden sm:inline">/</span>
           <a
-            href="/book"
+            href="/book/"
             className="text-xs text-text-muted hover:text-primary transition-colors font-mono tracking-wide no-underline hidden sm:inline-flex items-center gap-1"
           >
             <BookOpen className="h-3.5 w-3.5" />

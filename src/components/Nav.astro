@@ -2,18 +2,18 @@
 import ThemeToggle from './ThemeToggle.astro';
 
 const docsPages = [
-  { href: '/docs/dashboard', label: 'Dashboard' },
-  { href: '/docs/tasks', label: 'Task Execution' },
-  { href: '/docs/projects', label: 'Projects' },
-  { href: '/docs/agents', label: 'Agent Integration' },
-  { href: '/docs/profiles', label: 'Profiles' },
-  { href: '/docs/inbox', label: 'Human-in-the-Loop' },
-  { href: '/docs/monitoring', label: 'Monitoring' },
-  { href: '/docs/costs', label: 'Cost & Usage' },
-  { href: '/docs/workflows', label: 'Workflows' },
-  { href: '/docs/documents', label: 'Documents' },
-  { href: '/docs/schedules', label: 'Schedules' },
-  { href: '/docs/settings', label: 'Settings' },
+  { href: '/docs/dashboard/', label: 'Dashboard' },
+  { href: '/docs/tasks/', label: 'Task Execution' },
+  { href: '/docs/projects/', label: 'Projects' },
+  { href: '/docs/agents/', label: 'Agent Integration' },
+  { href: '/docs/profiles/', label: 'Profiles' },
+  { href: '/docs/inbox/', label: 'Human-in-the-Loop' },
+  { href: '/docs/monitoring/', label: 'Monitoring' },
+  { href: '/docs/costs/', label: 'Cost & Usage' },
+  { href: '/docs/workflows/', label: 'Workflows' },
+  { href: '/docs/documents/', label: 'Documents' },
+  { href: '/docs/schedules/', label: 'Schedules' },
+  { href: '/docs/settings/', label: 'Settings' },
 ];
 ---
 <div id="nav-wrapper" class="fixed top-0 left-0 right-0 z-40 transition-[background-color,backdrop-filter] duration-300">
@@ -45,7 +45,7 @@ const docsPages = [
         Pricing
       </a>
       <a
-        href="/book"
+        href="/book/"
         class="font-mono text-xs tracking-widest text-text-muted hover:text-primary transition-colors inline-flex items-center gap-1.5"
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -54,20 +54,20 @@ const docsPages = [
         Book
       </a>
       <a
-        href="/research"
+        href="/research/"
         class="font-mono text-xs tracking-widest text-text-muted hover:text-primary transition-colors"
       >
         Research
       </a>
       <a
-        href="/projects"
+        href="/projects/"
         class="font-mono text-xs tracking-widest text-text-muted hover:text-primary transition-colors"
       >
         Projects
       </a>
       <div class="relative group inline-flex items-center">
         <a
-          href="/docs"
+          href="/docs/"
           class="font-mono text-xs tracking-widest text-text-muted hover:text-primary transition-colors"
         >
           Docs
@@ -120,15 +120,15 @@ const docsPages = [
   <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-surface/95 backdrop-blur-md">
     <div class="px-6 py-4 flex flex-col gap-3">
       <a href="/#pricing" class="font-mono text-sm text-text-muted hover:text-primary transition-colors py-2">Pricing</a>
-      <a href="/book" class="font-mono text-sm text-text-muted hover:text-primary transition-colors py-2 inline-flex items-center gap-1.5">
+      <a href="/book/" class="font-mono text-sm text-text-muted hover:text-primary transition-colors py-2 inline-flex items-center gap-1.5">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
         </svg>
         Book
       </a>
-      <a href="/research" class="font-mono text-sm text-text-muted hover:text-primary transition-colors py-2">Research</a>
-      <a href="/projects" class="font-mono text-sm text-text-muted hover:text-primary transition-colors py-2">Projects</a>
-      <a href="/docs" class="font-mono text-sm text-text-muted hover:text-primary transition-colors py-2">Docs</a>
+      <a href="/research/" class="font-mono text-sm text-text-muted hover:text-primary transition-colors py-2">Research</a>
+      <a href="/projects/" class="font-mono text-sm text-text-muted hover:text-primary transition-colors py-2">Projects</a>
+      <a href="/docs/" class="font-mono text-sm text-text-muted hover:text-primary transition-colors py-2">Docs</a>
       <hr class="border-border" />
       {docsPages.map(({ href, label }) => (
         <a href={href} class="text-sm text-text-muted hover:text-primary transition-colors py-1 pl-4">{label}</a>
