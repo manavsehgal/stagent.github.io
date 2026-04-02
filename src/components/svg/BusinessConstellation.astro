@@ -2,7 +2,7 @@
 /**
  * BusinessConstellation — Hero visualization
  * Network constellation: 4 inner Stagent product nodes → 6 outer business outcome nodes
- * Organic glow style with bezier curves, flowing particles, orchestrated reveal
+ * 3D sphere gradients, galaxy drift, edge-terminated bezier curves, external labels
  */
 ---
 <svg viewBox="0 0 560 400" xmlns="http://www.w3.org/2000/svg" class="bc w-full mx-auto" data-svg-animate>
@@ -12,23 +12,32 @@
       <feGaussianBlur stdDeviation="6" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+    <!-- Lighter glow for prominent outer nodes -->
+    <filter id="bc-glow-soft">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
 
-    <!-- Inner node radial gradient fills -->
-    <radialGradient id="bc-grad-blue" cx="50%" cy="30%" r="70%">
-      <stop offset="0%" stop-color="var(--svg-accent-blue)" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="var(--svg-accent-blue)" stop-opacity="0.05"/>
+    <!-- 3D sphere gradients with offset highlight -->
+    <radialGradient id="bc-sphere-blue" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="var(--svg-accent-blue)" stop-opacity="0.45"/>
+      <stop offset="50%" stop-color="var(--svg-accent-blue)" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="var(--svg-accent-blue)" stop-opacity="0.03"/>
     </radialGradient>
-    <radialGradient id="bc-grad-teal" cx="50%" cy="30%" r="70%">
-      <stop offset="0%" stop-color="var(--svg-accent-teal)" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="var(--svg-accent-teal)" stop-opacity="0.05"/>
+    <radialGradient id="bc-sphere-teal" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="var(--svg-accent-teal)" stop-opacity="0.45"/>
+      <stop offset="50%" stop-color="var(--svg-accent-teal)" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="var(--svg-accent-teal)" stop-opacity="0.03"/>
     </radialGradient>
-    <radialGradient id="bc-grad-purple" cx="50%" cy="30%" r="70%">
-      <stop offset="0%" stop-color="var(--svg-accent-purple)" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="var(--svg-accent-purple)" stop-opacity="0.05"/>
+    <radialGradient id="bc-sphere-purple" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="var(--svg-accent-purple)" stop-opacity="0.45"/>
+      <stop offset="50%" stop-color="var(--svg-accent-purple)" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="var(--svg-accent-purple)" stop-opacity="0.03"/>
     </radialGradient>
-    <radialGradient id="bc-grad-orange" cx="50%" cy="30%" r="70%">
-      <stop offset="0%" stop-color="var(--svg-accent-orange)" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="var(--svg-accent-orange)" stop-opacity="0.05"/>
+    <radialGradient id="bc-sphere-orange" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="var(--svg-accent-orange)" stop-opacity="0.45"/>
+      <stop offset="50%" stop-color="var(--svg-accent-orange)" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="var(--svg-accent-orange)" stop-opacity="0.03"/>
     </radialGradient>
 
     <!-- Central atmospheric glow -->
@@ -44,18 +53,26 @@
     @keyframes bc-dash { to { stroke-dashoffset: -14; } }
     .bc-inner-conn { stroke-dasharray: 3 4; animation: bc-dash 3s linear infinite; }
 
+    /* Galaxy drift keyframes */
+    @keyframes bc-drift-1 { 0%,100% { transform: translate(0,0); } 25% { transform: translate(4px,-2px); } 50% { transform: translate(1px,1px); } 75% { transform: translate(-3px,3px); } }
+    @keyframes bc-drift-2 { 0%,100% { transform: translate(0,0); } 25% { transform: translate(-3px,2px); } 50% { transform: translate(-1px,-1px); } 75% { transform: translate(2px,-3px); } }
+    @keyframes bc-drift-3 { 0%,100% { transform: translate(0,0); } 25% { transform: translate(3px,3px); } 50% { transform: translate(0px,-1px); } 75% { transform: translate(-4px,-1px); } }
+    @keyframes bc-drift-4 { 0%,100% { transform: translate(0,0); } 25% { transform: translate(-2px,-3px); } 50% { transform: translate(1px,0px); } 75% { transform: translate(3px,2px); } }
+    @keyframes bc-drift-5 { 0%,100% { transform: translate(0,0); } 25% { transform: translate(1.5px,-1px); } 50% { transform: translate(-0.5px,0.5px); } 75% { transform: translate(-1px,1.5px); } }
+    @keyframes bc-drift-6 { 0%,100% { transform: translate(0,0); } 25% { transform: translate(-1px,1px); } 50% { transform: translate(0.5px,-0.5px); } 75% { transform: translate(1px,-1.5px); } }
+
     /* Light mode overrides */
     :global(html[data-theme="light"]) .bc .bc-atmo-circle { opacity: 0.5; }
-    :global(html[data-theme="light"]) .bc .bc-outer-fill { fill: var(--svg-bg-inner); }
     :global(html[data-theme="light"]) .bc .bc-particle { opacity: 0.4; }
     :global(html[data-theme="light"]) .bc .bc-watermark { opacity: 0.2; }
-    :global(html[data-theme="light"]) .bc .bc-label-secondary { opacity: 0.6; }
+    :global(html[data-theme="light"]) .bc .bc-outer-halo { opacity: 0.5; }
 
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce) {
       .bc-inner-conn { animation: none; }
       .bc .bc-particle { display: none; }
       .bc .bc-halo { animation: none !important; }
+      .bc .bc-drift { animation: none !important; }
     }
   </style>
 
@@ -64,41 +81,41 @@
     <circle class="bc-atmo-circle" cx="280" cy="200" r="190" fill="url(#bc-atmo)"/>
   </g>
 
-  <!-- ═══ CONNECTIONS: Inner ↔ Outer (bezier curves) ═══ -->
+  <!-- ═══ CONNECTIONS: Inner ↔ Outer (edge-terminated bezier curves) ═══ -->
   <g class="svg-reveal svg-reveal-d7">
+    <!-- Primary connections (10% opacity, 1px) -->
     <!-- Agents → Revenue Growth -->
-    <path id="bc-p-ag-rev" d="M280,155 Q200,95 115,65" fill="none" stroke="var(--svg-accent-blue)" stroke-opacity="0.1" stroke-width="1"/>
+    <path id="bc-p-ag-rev" d="M254.4,135.8 Q200,95 138.6,73.3" fill="none" stroke="var(--svg-accent-blue)" stroke-opacity="0.1" stroke-width="1"/>
     <!-- Agents → Customer Success -->
-    <path id="bc-p-ag-cus" d="M280,155 Q360,95 445,70" fill="none" stroke="var(--svg-accent-blue)" stroke-opacity="0.1" stroke-width="1"/>
-    <!-- Agents → Compliance (cross) -->
-    <path d="M280,155 Q400,165 490,195" fill="none" stroke="var(--svg-accent-blue)" stroke-opacity="0.06" stroke-width="0.7"/>
-
+    <path id="bc-p-ag-cus" d="M305.6,135.8 Q360,95 424.9,75.9" fill="none" stroke="var(--svg-accent-blue)" stroke-opacity="0.1" stroke-width="1"/>
     <!-- Workflows → Operations Excellence -->
-    <path id="bc-p-wf-ops" d="M210,215 Q140,210 70,190" fill="none" stroke="var(--svg-accent-teal)" stroke-opacity="0.1" stroke-width="1"/>
+    <path id="bc-p-wf-ops" d="M184.1,213.1 Q140,210 88.3,195.2" fill="none" stroke="var(--svg-accent-teal)" stroke-opacity="0.1" stroke-width="1"/>
     <!-- Workflows → Cost Efficiency -->
-    <path id="bc-p-wf-cost" d="M210,215 Q160,285 100,330" fill="none" stroke="var(--svg-accent-teal)" stroke-opacity="0.1" stroke-width="1"/>
-    <!-- Workflows → Revenue (cross) -->
-    <path d="M210,215 Q155,135 115,65" fill="none" stroke="var(--svg-accent-teal)" stroke-opacity="0.06" stroke-width="0.7"/>
-
+    <path id="bc-p-wf-cost" d="M194.9,236.2 Q160,285 119.9,308.4" fill="none" stroke="var(--svg-accent-teal)" stroke-opacity="0.1" stroke-width="1"/>
     <!-- Documents → Business Intelligence -->
-    <path id="bc-p-doc-bi" d="M350,215 Q405,285 460,335" fill="none" stroke="var(--svg-accent-purple)" stroke-opacity="0.1" stroke-width="1"/>
-    <!-- Documents → Customer Success (cross) -->
-    <path d="M350,215 Q410,150 445,70" fill="none" stroke="var(--svg-accent-purple)" stroke-opacity="0.06" stroke-width="0.7"/>
-
+    <path id="bc-p-doc-bi" d="M366.8,234.8 Q405,280 443.7,311.7" fill="none" stroke="var(--svg-accent-purple)" stroke-opacity="0.1" stroke-width="1"/>
     <!-- Knowledge → Compliance & Governance -->
-    <path id="bc-p-kb-comp" d="M280,275 Q395,270 490,195" fill="none" stroke="var(--svg-accent-orange)" stroke-opacity="0.1" stroke-width="1"/>
-    <!-- Knowledge → Business Intelligence (cross) -->
-    <path d="M280,275 Q370,315 460,335" fill="none" stroke="var(--svg-accent-orange)" stroke-opacity="0.06" stroke-width="0.7"/>
+    <path id="bc-p-kb-comp" d="M306.0,273.9 Q395,270 470.4,210.5" fill="none" stroke="var(--svg-accent-orange)" stroke-opacity="0.1" stroke-width="1"/>
     <!-- Knowledge → Cost Efficiency -->
-    <path id="bc-p-kb-cost" d="M280,275 Q185,315 100,330" fill="none" stroke="var(--svg-accent-orange)" stroke-opacity="0.1" stroke-width="1"/>
+    <path id="bc-p-kb-cost" d="M255.6,284.0 Q185,310 122.8,317.3" fill="none" stroke="var(--svg-accent-orange)" stroke-opacity="0.1" stroke-width="1"/>
+
+    <!-- Cross connections (6% opacity, 0.7px) -->
+    <!-- Agents → Compliance -->
+    <path d="M311.9,157.7 Q400,165 466.3,187.1" fill="none" stroke="var(--svg-accent-blue)" stroke-opacity="0.06" stroke-width="0.7"/>
+    <!-- Workflows → Revenue -->
+    <path d="M195.3,193.6 Q155,135 127.4,86.7" fill="none" stroke="var(--svg-accent-teal)" stroke-opacity="0.06" stroke-width="0.7"/>
+    <!-- Documents → Customer Success -->
+    <path d="M367.6,195.9 Q410,150 436.6,89.2" fill="none" stroke="var(--svg-accent-purple)" stroke-opacity="0.06" stroke-width="0.7"/>
+    <!-- Knowledge → Business Intelligence -->
+    <path d="M304.2,284.4 Q370,310 439.3,321.5" fill="none" stroke="var(--svg-accent-orange)" stroke-opacity="0.06" stroke-width="0.7"/>
   </g>
 
-  <!-- ═══ CONNECTIONS: Inner ↔ Inner (dashed diamond) ═══ -->
+  <!-- ═══ CONNECTIONS: Inner ↔ Inner (dashed diamond, edge-terminated) ═══ -->
   <g class="svg-reveal svg-reveal-d4">
-    <line x1="280" y1="168" x2="222" y2="207" class="bc-inner-conn" stroke="var(--svg-accent-blue)" stroke-opacity="0.08" stroke-width="0.8"/>
-    <line x1="280" y1="168" x2="338" y2="207" class="bc-inner-conn" stroke="var(--svg-accent-blue)" stroke-opacity="0.08" stroke-width="0.8"/>
-    <line x1="222" y1="223" x2="280" y2="262" class="bc-inner-conn" stroke="var(--svg-accent-teal)" stroke-opacity="0.06" stroke-width="0.8"/>
-    <line x1="338" y1="223" x2="280" y2="262" class="bc-inner-conn" stroke="var(--svg-accent-purple)" stroke-opacity="0.06" stroke-width="0.8"/>
+    <line x1="255.7" y1="175.8" x2="229.7" y2="198.1" class="bc-inner-conn" stroke="var(--svg-accent-blue)" stroke-opacity="0.08" stroke-width="0.8"/>
+    <line x1="304.3" y1="175.8" x2="330.3" y2="198.1" class="bc-inner-conn" stroke="var(--svg-accent-blue)" stroke-opacity="0.08" stroke-width="0.8"/>
+    <line x1="229.7" y1="231.9" x2="260.3" y2="258.1" class="bc-inner-conn" stroke="var(--svg-accent-teal)" stroke-opacity="0.06" stroke-width="0.8"/>
+    <line x1="330.3" y1="231.9" x2="299.7" y2="258.1" class="bc-inner-conn" stroke="var(--svg-accent-purple)" stroke-opacity="0.06" stroke-width="0.8"/>
   </g>
 
   <!-- ═══ PARTICLES (flowing along bezier paths) ═══ -->
@@ -129,126 +146,160 @@
   <!-- ═══ INNER NODES: Stagent Product Entities ═══ -->
 
   <!-- Agents (top center — hero node) -->
-  <g class="svg-reveal svg-reveal-d1">
+  <g class="svg-reveal svg-reveal-d1 bc-drift" style="animation: bc-drift-5 38s ease-in-out infinite">
     <circle class="bc-halo" cx="280" cy="155" r="32" fill="none" stroke="var(--svg-accent-blue)" stroke-opacity="0.15" stroke-width="0.5">
       <animate attributeName="r" values="32;35;32" dur="4s" repeatCount="indefinite"/>
       <animate attributeName="stroke-opacity" values="0.15;0.06;0.15" dur="4s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="280" cy="155" r="32" fill="url(#bc-grad-blue)" stroke="var(--svg-accent-blue)" stroke-opacity="0.4" stroke-width="1.2" filter="url(#bc-glow)"/>
-    <!-- Bot icon -->
-    <rect x="268" y="140" width="24" height="16" rx="4" fill="none" stroke="var(--svg-accent-blue)" stroke-width="1.2"/>
-    <circle cx="275" cy="148" r="2" fill="var(--svg-accent-blue)"/>
-    <circle cx="285" cy="148" r="2" fill="var(--svg-accent-blue)"/>
-    <line x1="280" y1="140" x2="280" y2="135" stroke="var(--svg-accent-blue)" stroke-width="1"/>
-    <circle cx="280" cy="133" r="1.5" fill="var(--svg-accent-blue)"/>
-    <text x="280" y="174" text-anchor="middle" fill="var(--svg-accent-blue)" font-size="8" font-family="var(--font-body)" font-weight="600">Agents</text>
+    <circle cx="280" cy="155" r="32" fill="url(#bc-sphere-blue)" stroke="var(--svg-accent-blue)" stroke-opacity="0.4" stroke-width="1.2" filter="url(#bc-glow)"/>
+    <!-- Bot icon (1.3x scaled) -->
+    <rect x="264.4" y="135.5" width="31.2" height="20.8" rx="5.2" fill="none" stroke="var(--svg-accent-blue)" stroke-width="1.6"/>
+    <circle cx="273.5" cy="145.9" r="2.6" fill="var(--svg-accent-blue)"/>
+    <circle cx="286.5" cy="145.9" r="2.6" fill="var(--svg-accent-blue)"/>
+    <line x1="280" y1="135.5" x2="280" y2="129" stroke="var(--svg-accent-blue)" stroke-width="1.3"/>
+    <circle cx="280" cy="126.4" r="2" fill="var(--svg-accent-blue)"/>
+    <!-- Label below circle -->
+    <text x="280" y="198" text-anchor="middle" fill="var(--svg-accent-blue)" font-size="8.5" font-family="var(--font-body)" font-weight="600">Agents</text>
   </g>
 
   <!-- Workflows (center-left) -->
-  <g class="svg-reveal svg-reveal-d2">
+  <g class="svg-reveal svg-reveal-d2 bc-drift" style="animation: bc-drift-6 35s ease-in-out infinite">
     <circle class="bc-halo" cx="210" cy="215" r="26" fill="none" stroke="var(--svg-accent-teal)" stroke-opacity="0.12" stroke-width="0.5">
       <animate attributeName="r" values="26;29;26" dur="5s" repeatCount="indefinite"/>
       <animate attributeName="stroke-opacity" values="0.12;0.05;0.12" dur="5s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="210" cy="215" r="26" fill="url(#bc-grad-teal)" stroke="var(--svg-accent-teal)" stroke-opacity="0.4" stroke-width="1"/>
-    <!-- Fork/branch icon -->
-    <path d="M203,208 L210,208 L217,203" fill="none" stroke="var(--svg-accent-teal)" stroke-width="1.2" stroke-linecap="round"/>
-    <path d="M203,208 L210,208 L217,213" fill="none" stroke="var(--svg-accent-teal)" stroke-width="1.2" stroke-linecap="round"/>
-    <circle cx="217" cy="203" r="1.5" fill="var(--svg-accent-teal)"/>
-    <circle cx="217" cy="213" r="1.5" fill="var(--svg-accent-teal)"/>
-    <circle cx="203" cy="208" r="1.5" fill="var(--svg-accent-teal)"/>
-    <text x="210" y="234" text-anchor="middle" fill="var(--svg-accent-teal)" font-size="7.5" font-family="var(--font-body)" font-weight="600">Workflows</text>
+    <circle cx="210" cy="215" r="26" fill="url(#bc-sphere-teal)" stroke="var(--svg-accent-teal)" stroke-opacity="0.4" stroke-width="1"/>
+    <!-- Fork/branch icon (1.3x scaled) -->
+    <path d="M200.9,205.9 L210,205.9 L219.1,199.4" fill="none" stroke="var(--svg-accent-teal)" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M200.9,205.9 L210,205.9 L219.1,212.4" fill="none" stroke="var(--svg-accent-teal)" stroke-width="1.6" stroke-linecap="round"/>
+    <circle cx="219.1" cy="199.4" r="2" fill="var(--svg-accent-teal)"/>
+    <circle cx="219.1" cy="212.4" r="2" fill="var(--svg-accent-teal)"/>
+    <circle cx="200.9" cy="205.9" r="2" fill="var(--svg-accent-teal)"/>
+    <!-- Label below circle -->
+    <text x="210" y="252" text-anchor="middle" fill="var(--svg-accent-teal)" font-size="8.5" font-family="var(--font-body)" font-weight="600">Workflows</text>
   </g>
 
   <!-- Documents (center-right) -->
-  <g class="svg-reveal svg-reveal-d3">
+  <g class="svg-reveal svg-reveal-d3 bc-drift" style="animation: bc-drift-5 40s ease-in-out infinite">
     <circle class="bc-halo" cx="350" cy="215" r="26" fill="none" stroke="var(--svg-accent-purple)" stroke-opacity="0.12" stroke-width="0.5">
       <animate attributeName="r" values="26;29;26" dur="4.5s" repeatCount="indefinite"/>
       <animate attributeName="stroke-opacity" values="0.12;0.05;0.12" dur="4.5s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="350" cy="215" r="26" fill="url(#bc-grad-purple)" stroke="var(--svg-accent-purple)" stroke-opacity="0.4" stroke-width="1"/>
-    <!-- Document icon -->
-    <rect x="343" y="205" width="14" height="16" rx="2" fill="none" stroke="var(--svg-accent-purple)" stroke-width="1.1"/>
-    <line x1="346" y1="210" x2="354" y2="210" stroke="var(--svg-accent-purple)" stroke-width="0.8" stroke-opacity="0.6"/>
-    <line x1="346" y1="213" x2="352" y2="213" stroke="var(--svg-accent-purple)" stroke-width="0.8" stroke-opacity="0.6"/>
-    <line x1="346" y1="216" x2="350" y2="216" stroke="var(--svg-accent-purple)" stroke-width="0.8" stroke-opacity="0.6"/>
-    <text x="350" y="234" text-anchor="middle" fill="var(--svg-accent-purple)" font-size="7.5" font-family="var(--font-body)" font-weight="600">Documents</text>
+    <circle cx="350" cy="215" r="26" fill="url(#bc-sphere-purple)" stroke="var(--svg-accent-purple)" stroke-opacity="0.4" stroke-width="1"/>
+    <!-- Document icon (1.3x scaled) -->
+    <rect x="340.9" y="202" width="18.2" height="20.8" rx="2.6" fill="none" stroke="var(--svg-accent-purple)" stroke-width="1.4"/>
+    <line x1="344.8" y1="208.5" x2="355.2" y2="208.5" stroke="var(--svg-accent-purple)" stroke-width="1" stroke-opacity="0.6"/>
+    <line x1="344.8" y1="212.4" x2="352.6" y2="212.4" stroke="var(--svg-accent-purple)" stroke-width="1" stroke-opacity="0.6"/>
+    <line x1="344.8" y1="216.3" x2="350" y2="216.3" stroke="var(--svg-accent-purple)" stroke-width="1" stroke-opacity="0.6"/>
+    <!-- Label below circle -->
+    <text x="350" y="252" text-anchor="middle" fill="var(--svg-accent-purple)" font-size="8.5" font-family="var(--font-body)" font-weight="600">Documents</text>
   </g>
 
   <!-- Knowledge (bottom center) -->
-  <g class="svg-reveal svg-reveal-d4">
+  <g class="svg-reveal svg-reveal-d4 bc-drift" style="animation: bc-drift-6 36s ease-in-out infinite">
     <circle class="bc-halo" cx="280" cy="275" r="26" fill="none" stroke="var(--svg-accent-orange)" stroke-opacity="0.12" stroke-width="0.5">
       <animate attributeName="r" values="26;29;26" dur="5.5s" repeatCount="indefinite"/>
       <animate attributeName="stroke-opacity" values="0.12;0.05;0.12" dur="5.5s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="280" cy="275" r="26" fill="url(#bc-grad-orange)" stroke="var(--svg-accent-orange)" stroke-opacity="0.4" stroke-width="1"/>
-    <!-- Lightbulb icon -->
-    <circle cx="280" cy="268" r="6" fill="none" stroke="var(--svg-accent-orange)" stroke-width="1.1"/>
-    <line x1="277" y1="275" x2="283" y2="275" stroke="var(--svg-accent-orange)" stroke-width="1" stroke-linecap="round"/>
-    <line x1="278" y1="277" x2="282" y2="277" stroke="var(--svg-accent-orange)" stroke-width="0.8" stroke-linecap="round"/>
-    <text x="280" y="294" text-anchor="middle" fill="var(--svg-accent-orange)" font-size="7.5" font-family="var(--font-body)" font-weight="600">Knowledge</text>
+    <circle cx="280" cy="275" r="26" fill="url(#bc-sphere-orange)" stroke="var(--svg-accent-orange)" stroke-opacity="0.4" stroke-width="1"/>
+    <!-- Lightbulb icon (1.3x scaled) -->
+    <circle cx="280" cy="265.9" r="7.8" fill="none" stroke="var(--svg-accent-orange)" stroke-width="1.4"/>
+    <line x1="276.1" y1="275" x2="283.9" y2="275" stroke="var(--svg-accent-orange)" stroke-width="1.3" stroke-linecap="round"/>
+    <line x1="277.4" y1="277.6" x2="282.6" y2="277.6" stroke="var(--svg-accent-orange)" stroke-width="1" stroke-linecap="round"/>
+    <!-- Label below circle -->
+    <text x="280" y="312" text-anchor="middle" fill="var(--svg-accent-orange)" font-size="8.5" font-family="var(--font-body)" font-weight="600">Knowledge</text>
   </g>
 
   <!-- ═══ OUTER NODES: Business Outcomes ═══ -->
 
-  <!-- Revenue Growth (top-left) -->
-  <g class="svg-reveal svg-reveal-d5">
-    <circle cx="115" cy="65" r="22" class="bc-outer-fill" fill="var(--svg-bg)" stroke="var(--svg-accent-blue)" stroke-opacity="0.25" stroke-width="0.8"/>
-    <!-- Trending up icon -->
-    <path d="M105,71 L112,63 L118,68 L125,60" fill="none" stroke="var(--svg-accent-blue)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M121,60 L125,60 L125,64" fill="none" stroke="var(--svg-accent-blue)" stroke-width="1" stroke-linecap="round"/>
-    <text x="115" y="80" text-anchor="middle" fill="var(--svg-text-dim)" font-size="6.5" font-family="var(--font-body)">Revenue</text>
-    <text x="115" y="88" text-anchor="middle" class="bc-label-secondary" fill="var(--svg-text-dim)" font-size="5" font-family="var(--font-body)" opacity="0.7">Growth</text>
+  <!-- Revenue Growth (top-left, r=25) -->
+  <g class="svg-reveal svg-reveal-d5 bc-drift" style="animation: bc-drift-1 28s ease-in-out infinite">
+    <circle class="bc-halo bc-outer-halo" cx="115" cy="65" r="25" fill="none" stroke="var(--svg-accent-blue)" stroke-opacity="0.12" stroke-width="0.5">
+      <animate attributeName="r" values="25;28;25" dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-opacity" values="0.12;0.05;0.12" dur="6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="115" cy="65" r="25" fill="url(#bc-sphere-blue)" stroke="var(--svg-accent-blue)" stroke-opacity="0.4" stroke-width="0.8" filter="url(#bc-glow-soft)"/>
+    <!-- Trending up icon (1.3x scaled) -->
+    <path d="M102,72.8 L111.1,62.4 L118.9,68.9 L128,58.5" fill="none" stroke="var(--svg-accent-blue)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M122.8,58.5 L128,58.5 L128,63.7" fill="none" stroke="var(--svg-accent-blue)" stroke-width="1.3" stroke-linecap="round"/>
+    <!-- Labels below circle -->
+    <text x="115" y="101" text-anchor="middle" fill="var(--svg-accent-blue)" font-size="7.5" font-family="var(--font-body)">Revenue</text>
+    <text x="115" y="110" text-anchor="middle" fill="var(--svg-accent-blue)" font-size="6" font-family="var(--font-body)">Growth</text>
   </g>
 
-  <!-- Customer Success (top-right) -->
-  <g class="svg-reveal svg-reveal-d5">
-    <circle cx="445" cy="70" r="22" class="bc-outer-fill" fill="var(--svg-bg)" stroke="var(--svg-accent-teal)" stroke-opacity="0.25" stroke-width="0.8"/>
-    <!-- Checkmark icon -->
-    <path d="M437,70 L442,75 L453,64" fill="none" stroke="var(--svg-accent-teal)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="445" y="85" text-anchor="middle" fill="var(--svg-text-dim)" font-size="6.5" font-family="var(--font-body)">Customer</text>
-    <text x="445" y="93" text-anchor="middle" class="bc-label-secondary" fill="var(--svg-text-dim)" font-size="5" font-family="var(--font-body)" opacity="0.7">Success</text>
+  <!-- Customer Success (top-right, r=21) -->
+  <g class="svg-reveal svg-reveal-d5 bc-drift" style="animation: bc-drift-2 32s ease-in-out infinite">
+    <circle class="bc-halo bc-outer-halo" cx="445" cy="70" r="21" fill="none" stroke="var(--svg-accent-teal)" stroke-opacity="0.12" stroke-width="0.5">
+      <animate attributeName="r" values="21;24;21" dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-opacity" values="0.12;0.05;0.12" dur="6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="445" cy="70" r="21" fill="url(#bc-sphere-teal)" stroke="var(--svg-accent-teal)" stroke-opacity="0.4" stroke-width="0.8"/>
+    <!-- Checkmark icon (1.3x scaled) -->
+    <path d="M434.6,70 L441.1,76.5 L455.4,62.2" fill="none" stroke="var(--svg-accent-teal)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Labels below circle -->
+    <text x="445" y="102" text-anchor="middle" fill="var(--svg-accent-teal)" font-size="7.5" font-family="var(--font-body)">Customer</text>
+    <text x="445" y="111" text-anchor="middle" fill="var(--svg-accent-teal)" font-size="6" font-family="var(--font-body)">Success</text>
   </g>
 
-  <!-- Operations Excellence (left) -->
-  <g class="svg-reveal svg-reveal-d6">
-    <circle cx="70" cy="190" r="22" class="bc-outer-fill" fill="var(--svg-bg)" stroke="var(--svg-accent-teal)" stroke-opacity="0.25" stroke-width="0.8"/>
-    <!-- Gear icon -->
-    <circle cx="70" cy="187" r="5.5" fill="none" stroke="var(--svg-accent-teal)" stroke-width="1"/>
-    <circle cx="70" cy="187" r="2" fill="var(--svg-accent-teal)" opacity="0.5"/>
-    <text x="70" y="205" text-anchor="middle" fill="var(--svg-text-dim)" font-size="6.5" font-family="var(--font-body)">Operations</text>
-    <text x="70" y="213" text-anchor="middle" class="bc-label-secondary" fill="var(--svg-text-dim)" font-size="5" font-family="var(--font-body)" opacity="0.7">Excellence</text>
+  <!-- Operations Excellence (left, r=19) -->
+  <g class="svg-reveal svg-reveal-d6 bc-drift" style="animation: bc-drift-3 25s ease-in-out infinite">
+    <circle class="bc-halo bc-outer-halo" cx="70" cy="190" r="19" fill="none" stroke="var(--svg-accent-teal)" stroke-opacity="0.12" stroke-width="0.5">
+      <animate attributeName="r" values="19;22;19" dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-opacity" values="0.12;0.05;0.12" dur="6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="70" cy="190" r="19" fill="url(#bc-sphere-teal)" stroke="var(--svg-accent-teal)" stroke-opacity="0.4" stroke-width="0.8"/>
+    <!-- Gear icon (1.3x scaled) -->
+    <circle cx="70" cy="186.1" r="7.2" fill="none" stroke="var(--svg-accent-teal)" stroke-width="1.3"/>
+    <circle cx="70" cy="186.1" r="2.6" fill="var(--svg-accent-teal)" opacity="0.5"/>
+    <!-- Labels below circle -->
+    <text x="70" y="220" text-anchor="middle" fill="var(--svg-accent-teal)" font-size="7.5" font-family="var(--font-body)">Operations</text>
+    <text x="70" y="229" text-anchor="middle" fill="var(--svg-accent-teal)" font-size="6" font-family="var(--font-body)">Excellence</text>
   </g>
 
-  <!-- Cost Efficiency (bottom-left) -->
-  <g class="svg-reveal svg-reveal-d6">
-    <circle cx="100" cy="330" r="22" class="bc-outer-fill" fill="var(--svg-bg)" stroke="var(--svg-accent-orange)" stroke-opacity="0.25" stroke-width="0.8"/>
-    <!-- Down-trend icon -->
-    <path d="M90,324 L97,330 L103,326 L110,334" fill="none" stroke="var(--svg-accent-orange)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M106,334 L110,334 L110,330" fill="none" stroke="var(--svg-accent-orange)" stroke-width="1" stroke-linecap="round"/>
-    <text x="100" y="345" text-anchor="middle" fill="var(--svg-text-dim)" font-size="6.5" font-family="var(--font-body)">Cost</text>
-    <text x="100" y="353" text-anchor="middle" class="bc-label-secondary" fill="var(--svg-text-dim)" font-size="5" font-family="var(--font-body)" opacity="0.7">Efficiency</text>
+  <!-- Cost Efficiency (bottom-left, r=23) -->
+  <g class="svg-reveal svg-reveal-d6 bc-drift" style="animation: bc-drift-4 30s ease-in-out infinite">
+    <circle class="bc-halo bc-outer-halo" cx="100" cy="320" r="23" fill="none" stroke="var(--svg-accent-orange)" stroke-opacity="0.12" stroke-width="0.5">
+      <animate attributeName="r" values="23;26;23" dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-opacity" values="0.12;0.05;0.12" dur="6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="100" cy="320" r="23" fill="url(#bc-sphere-orange)" stroke="var(--svg-accent-orange)" stroke-opacity="0.4" stroke-width="0.8"/>
+    <!-- Down-trend icon (1.3x scaled, recentered on cy=320) -->
+    <path d="M87,313.5 L96.1,321.3 L103.9,316.1 L113,326.5" fill="none" stroke="var(--svg-accent-orange)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M107.8,326.5 L113,326.5 L113,321.3" fill="none" stroke="var(--svg-accent-orange)" stroke-width="1.3" stroke-linecap="round"/>
+    <!-- Labels below circle -->
+    <text x="100" y="354" text-anchor="middle" fill="var(--svg-accent-orange)" font-size="7.5" font-family="var(--font-body)">Cost</text>
+    <text x="100" y="363" text-anchor="middle" fill="var(--svg-accent-orange)" font-size="6" font-family="var(--font-body)">Efficiency</text>
   </g>
 
-  <!-- Business Intelligence (bottom-right) -->
-  <g class="svg-reveal svg-reveal-d7">
-    <circle cx="460" cy="335" r="22" class="bc-outer-fill" fill="var(--svg-bg)" stroke="var(--svg-accent-purple)" stroke-opacity="0.25" stroke-width="0.8"/>
-    <!-- Bar chart icon -->
-    <rect x="451" y="332" width="4" height="8" rx="0.5" fill="var(--svg-accent-purple)" opacity="0.6"/>
-    <rect x="457" y="328" width="4" height="12" rx="0.5" fill="var(--svg-accent-purple)" opacity="0.6"/>
-    <rect x="463" y="324" width="4" height="16" rx="0.5" fill="var(--svg-accent-purple)" opacity="0.6"/>
-    <text x="460" y="350" text-anchor="middle" fill="var(--svg-text-dim)" font-size="6.5" font-family="var(--font-body)">Business</text>
-    <text x="460" y="358" text-anchor="middle" class="bc-label-secondary" fill="var(--svg-text-dim)" font-size="5" font-family="var(--font-body)" opacity="0.7">Intelligence</text>
+  <!-- Business Intelligence (bottom-right, r=21) -->
+  <g class="svg-reveal svg-reveal-d7 bc-drift" style="animation: bc-drift-1 35s ease-in-out infinite">
+    <circle class="bc-halo bc-outer-halo" cx="460" cy="325" r="21" fill="none" stroke="var(--svg-accent-purple)" stroke-opacity="0.12" stroke-width="0.5">
+      <animate attributeName="r" values="21;24;21" dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-opacity" values="0.12;0.05;0.12" dur="6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="460" cy="325" r="21" fill="url(#bc-sphere-purple)" stroke="var(--svg-accent-purple)" stroke-opacity="0.4" stroke-width="0.8"/>
+    <!-- Bar chart icon (1.3x scaled, recentered on cy=325) -->
+    <rect x="450.9" y="319.8" width="5.2" height="10.4" rx="0.7" fill="var(--svg-accent-purple)" opacity="0.6"/>
+    <rect x="457.4" y="314.6" width="5.2" height="15.6" rx="0.7" fill="var(--svg-accent-purple)" opacity="0.6"/>
+    <rect x="463.9" y="309.4" width="5.2" height="20.8" rx="0.7" fill="var(--svg-accent-purple)" opacity="0.6"/>
+    <!-- Labels below circle -->
+    <text x="460" y="357" text-anchor="middle" fill="var(--svg-accent-purple)" font-size="7.5" font-family="var(--font-body)">Business</text>
+    <text x="460" y="366" text-anchor="middle" fill="var(--svg-accent-purple)" font-size="6" font-family="var(--font-body)">Intelligence</text>
   </g>
 
-  <!-- Compliance & Governance (right) -->
-  <g class="svg-reveal svg-reveal-d7">
-    <circle cx="490" cy="195" r="22" class="bc-outer-fill" fill="var(--svg-bg)" stroke="var(--svg-accent-purple)" stroke-opacity="0.25" stroke-width="0.8"/>
-    <!-- Shield with check icon -->
-    <path d="M490,185 L498,189 L498,196 C498,201 490,205 490,205 C490,205 482,201 482,196 L482,189 Z" fill="none" stroke="var(--svg-accent-purple)" stroke-width="1"/>
-    <path d="M486,196 L489,199 L494,193" fill="none" stroke="var(--svg-accent-purple)" stroke-width="0.9" stroke-linecap="round"/>
-    <text x="490" y="211" text-anchor="middle" fill="var(--svg-text-dim)" font-size="6.5" font-family="var(--font-body)">Compliance</text>
-    <text x="490" y="219" text-anchor="middle" class="bc-label-secondary" fill="var(--svg-text-dim)" font-size="5" font-family="var(--font-body)" opacity="0.7">& Governance</text>
+  <!-- Compliance & Governance (right, r=25) -->
+  <g class="svg-reveal svg-reveal-d7 bc-drift" style="animation: bc-drift-2 27s ease-in-out infinite">
+    <circle class="bc-halo bc-outer-halo" cx="490" cy="195" r="25" fill="none" stroke="var(--svg-accent-purple)" stroke-opacity="0.12" stroke-width="0.5">
+      <animate attributeName="r" values="25;28;25" dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-opacity" values="0.12;0.05;0.12" dur="6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="490" cy="195" r="25" fill="url(#bc-sphere-purple)" stroke="var(--svg-accent-purple)" stroke-opacity="0.4" stroke-width="0.8" filter="url(#bc-glow-soft)"/>
+    <!-- Shield with check icon (1.3x scaled) -->
+    <path d="M490,182 L500.4,187.2 L500.4,196.3 C500.4,202.8 490,208 490,208 C490,208 479.6,202.8 479.6,196.3 L479.6,187.2 Z" fill="none" stroke="var(--svg-accent-purple)" stroke-width="1.3"/>
+    <path d="M484.8,196.3 L488.7,200.2 L495.2,192.4" fill="none" stroke="var(--svg-accent-purple)" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- Labels below circle -->
+    <text x="490" y="231" text-anchor="middle" fill="var(--svg-accent-purple)" font-size="7.5" font-family="var(--font-body)">Compliance</text>
+    <text x="490" y="240" text-anchor="middle" fill="var(--svg-accent-purple)" font-size="6" font-family="var(--font-body)">&amp; Governance</text>
   </g>
 
   <!-- ═══ CENTER WATERMARK ═══ -->
