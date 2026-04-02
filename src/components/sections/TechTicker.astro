@@ -62,6 +62,8 @@ const groups = [
             ))}
           </>
         ))}
+        {/* Trailing divider so the seam between halves matches internal rhythm */}
+        <div class="w-px h-6 bg-border shrink-0" />
       </div>
     ))}
   </div>
@@ -78,6 +80,7 @@ const groups = [
     gap: 3rem;
     width: max-content;
     animation: ticker-scroll 40s linear infinite;
+    will-change: transform;
   }
 
   @keyframes ticker-scroll {
