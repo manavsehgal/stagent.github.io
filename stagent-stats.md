@@ -233,3 +233,53 @@
 - LOC now counted via `tokei` (previously used `find + wc -l`)
 - TypeScript is 85.0% of codebase (TS+TSX code / total code)
 - Velocity stabilizing as project matures: 0.35 commits/hour sustained over 639 hours
+
+---
+
+## [2026-04-03 15:00] Metrics Snapshot
+
+| Category | Metric | Value |
+|----------|--------|-------|
+| LOC | TypeScript (production) | 86,909 |
+| LOC | TypeScript (tests) | 8,800 |
+| LOC | **Total** | **110,915** |
+| Tests | Vitest | 426 |
+| Tests | **Total** | **426** |
+| Git | Commits | 251 |
+| Git | Hours elapsed | 667.5 |
+| Git | Commits/hour | 0.38 |
+| Git | LOC/hour | 166.2 |
+| Features | Completed | 116/128 |
+| Infra | API routes | 134 |
+| Infra | DB tables | 44 |
+| Infra | UI components | 265 |
+| Infra | Pages | 37 |
+| Infra | Agent profiles | 52 |
+| Infra | Service modules | 26 |
+| Infra | Workflow patterns | 25 |
+
+### Feature Status
+- 116 completed, 5 in-progress, 1 deferred, 6 planned
+- In-progress: chat-settings-tool, database-snapshot-backup, dynamic-slash-commands, runtime-validation-hardening, profile-environment-sync
+- Deferred: npm-publish-readiness
+- Planned: workflow-document-pool, direct-runtime-prompt-caching, direct-runtime-advanced-capabilities, workflow-run-history, entity-relationship-detail-views, relationship-summary-cards
+- Feature scope expanded from 110 → 128 with new entity/relationship views, backup, and workflow history features
+
+### Trend (vs previous snapshot — 1 day of development)
+- ↑ +12,726 LOC (98,189 → 110,915)
+- → no change tests (426)
+- ↑ +25 commits (226 → 251)
+- ↑ +14 features completed (102/110 → 116/128)
+- ↑ +20 API routes (114 → 134)
+- ↑ +14 DB tables (30 → 44)
+- ↑ +21 UI components (244 → 265)
+- ↑ +3 pages (34 → 37)
+- → no change agent profiles (52)
+- ↑ +6 service modules (20 → 26)
+- → no change workflow patterns (25)
+
+### Notes
+- LOC counted via `tokei` — TypeScript is 86.3% of codebase (TS+TSX code / total code)
+- Massive single-day velocity: +12.7K LOC, +25 commits, +14 features in ~28 hours
+- DB schema grew significantly (+14 tables) suggesting major data model expansion
+- Commits/hour ticked up from 0.35 → 0.38, reflecting sustained acceleration
