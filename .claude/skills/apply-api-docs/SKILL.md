@@ -31,7 +31,7 @@ All generated pages must follow the stagent.io design system:
 Every API page must include rich, developer-friendly code samples. Bare curl commands and minimal fetch calls are not acceptable. Follow these rules:
 
 ### Quick Start Section (required on every page)
-Add a **Quick Start** section after the intro paragraph and before the Base URL. This shows a complete, realistic integration flow in TypeScript (3-6 steps) that tells a story. Example: "create a task → queue it → execute → stream logs → get output." Each step should have a comment explaining what it does. Use a fenced `typescript` code block (not a CodeExample component).
+Add a **Quick Start** section after the intro paragraph and before the Base URL. This shows a complete, realistic integration flow (3-6 steps) that tells a story. Example: "create a task → queue it → execute → stream logs → get output." Each step should have a comment explaining what it does. Use a `<CodeExample ts={...} python={...} />` component (NOT a fenced code block) so the Quick Start gets TypeScript/Python tabs, copy button, and localStorage sync — consistent with all other code on the page.
 
 ### Code Examples in EndpointCards
 The CodeExample component takes `ts` (TypeScript, required) and `python` (optional) props. Both tabs should be provided for every endpoint.
@@ -191,8 +191,9 @@ import CodeExample from '../../../components/api/CodeExample.astro'
 
 ## Quick Start
 
-{Complete JavaScript code example showing a realistic integration flow for this domain.
- 3-6 steps, each with a comment explaining what it does. Use realistic field values.}
+<CodeExample ts={`// Complete TypeScript integration flow for this domain
+// 3-6 steps, each with a comment explaining what it does`} python={`# Equivalent Python flow using requests library
+# 3-6 steps with comments`} />
 
 ## Base URL
 
@@ -259,8 +260,8 @@ Check that `src/components/ApiDocsSidebar.astro` nav groups include all generate
 - If a domain was removed from the product, remove it from the sidebar
 - Ensure all `href` values use trailing slashes
 
-Check `src/components/Nav.astro` has the "API Reference" entry in `docsPages` (idempotent).
-Check `src/components/DocsSidebar.astro` has the "API Reference" bridge link (idempotent).
+Check `src/components/Nav.astro` has the top-level "API" link (between Docs and GitHub, not inside the dropdown).
+Check `src/components/DocsSidebar.astro` has the "API Reference" bridge link at the bottom of `navItems`.
 
 ### Step 9: Update Reference Manifest
 
@@ -331,3 +332,6 @@ Re-run this skill after the next product release to pick up new endpoints.
 - **TypeScript + Python**: All CodeExamples use `ts` and `python` props. TypeScript is default tab. User preference persists via localStorage
 - **Always-dark code blocks**: Code blocks use a uniform dark background with contrasting syntax colors in both themes (Shiki dark forced via CSS, per-line/span backgrounds set to transparent). No light code blocks, no per-line highlight stripes — clean flat dark surface with syntax coloring only
 - **Realistic values**: Use proper UUIDs, timestamps, model names in all examples — never "abc-123" or placeholder text
+- **MDX escaping**: Inside CodeExample prop strings (backtick-delimited), escape `${...}` as `\${...}` in TypeScript template literals. For Python f-strings, avoid `${}` patterns (MDX parses `${` as JSX expression) — use simpler string concatenation instead of `f"${var:.2f}"`. Also avoid complex f-string format specs like `:.2f` inside nested braces
+- **Navigation**: "API" appears as a top-level nav item (not inside Docs dropdown). DocsSidebar has an "API Reference" bridge link at the bottom. ApiDocsSidebar has a "Product Docs" bridge link back
+- **Shiki config**: `astro.config.mjs` uses dual themes `{ light: 'github-light', dark: 'github-dark' }` for markdown fenced blocks. The `<Code>` component inside CodeExample uses single `theme="github-dark"` — these are different and intentional (see global.css for the CSS that coordinates them)
