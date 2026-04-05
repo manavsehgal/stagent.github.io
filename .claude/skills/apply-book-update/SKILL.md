@@ -48,6 +48,7 @@ All files that may need updating during a book sync:
 | 7 | `src/styles/book.css` | When new callout variants added |
 | 8 | `src/lib/book/reading-paths.ts` | When chapters added/removed |
 | 9 | `src/pages/book/index.astro` | When parts count or description changes |
+| 10 | `src/components/book/book-reader.tsx` | When chapter URL pattern changes |
 
 ## 7-Step Workflow
 
@@ -145,7 +146,9 @@ Update each file as needed:
 
 #### 5a. `src/lib/book/content.ts`
 
-Update `CHAPTER_SLUG_MAP` to map all 12 chapter IDs to their filenames. Update `PARTS` array to 4 parts. Update `CHAPTERS` array with all 12 entries — read frontmatter from each source chapter file to populate `title`, `subtitle`, `readingTime`, `relatedDocs`, and `relatedJourney`.
+Update `CHAPTER_SLUG_MAP` to map all 12 chapter IDs to their filenames. Update `PARTS` array to 4 parts. Update `CHAPTERS` array with all 12 entries — read frontmatter from each source chapter file to populate `title`, `subtitle`, `readingTime`, `wordCount`, `relatedDocs`, and `relatedJourney`.
+
+For `wordCount`, run `wc -w` on each source chapter file and use the result. This field drives the "X words" and "~Y pages" stats on the landing page.
 
 Part assignments:
 - Part 1: ch-1, ch-2
@@ -207,9 +210,32 @@ Adjust based on the `relatedJourney` values in chapter frontmatter.
 
 #### 5g. `src/pages/book/index.astro`
 
-- Update the meta description to reference 12 chapters and 4 parts
-- Change the hardcoded `3 parts` text in the hero stats to `{PARTS.length} parts`
-- Update any other hardcoded references to chapter counts
+The landing page hero stats are **dynamic** — computed from the CHAPTERS array at build time:
+- `{CHAPTERS.length} chapters` — auto-updates
+- `~{totalReadingTime} min read` — sum of all readingTime values
+- `{PARTS.length} parts` — auto-updates
+- `{totalWords.toLocaleString()} words` — sum of all wordCount values
+- `~{totalPages} pages` — totalWords / 250, rounded up
+
+The JSON-LD schema uses `numberOfPages: totalPages` for the computed page count.
+
+**No hardcoded stats to update** — just ensure `wordCount` values in content.ts are current (run `wc -w` on each chapter). If chapters are added/removed, update the meta description text.
+
+**CRITICAL — Trailing slashes on all hrefs:** Every `href` that interpolates `CHAPTER_SLUG_MAP` must append a trailing slash. The map values are bare slugs (no slash), so callers must add it:
+
+- Correct: `` href={`/book/${CHAPTER_SLUG_MAP['ch-1']}/`} ``
+- Wrong: `` href={`/book/${CHAPTER_SLUG_MAP['ch-1']}`} ``
+
+There are 4 such links in this file: the hero CTA, the chapter grid links, the reading paths links, and the bottom CTA. Verify all have trailing slashes after any edit.
+
+#### 5h. `src/components/book/book-reader.tsx`
+
+The book reader uses `window.history.replaceState` to update the URL when navigating between chapters client-side. This URL must also include a trailing slash:
+
+- Correct: `` window.history.replaceState({}, "", `/book/${slug}/`) ``
+- Wrong: `` window.history.replaceState({}, "", `/book/${slug}`) ``
+
+Without this, the browser URL bar shows a path that would 301 redirect on GitHub Pages, and bookmarking or sharing the URL would fail.
 
 ### Step 6: Verify Build
 
@@ -287,8 +313,34 @@ relatedJourney: "personal-use"
 Required fields: `title`, `subtitle`, `chapter`, `part`, `readingTime`, `lastGeneratedBy`
 Optional fields: `relatedDocs` (array of doc page slugs), `relatedJourney` (one of: `"personal-use"`, `"work-use"`, `"power-user"`, `"developer"`)
 
+Note: `wordCount` is NOT in the markdown frontmatter — it is computed from `wc -w` and stored only in `src/lib/book/content.ts`. When syncing chapters, always recompute word counts and update the CHAPTERS array.
+
 The body uses standard markdown with these patterns:
 - `## Section Title` for major sections (no deeper nesting)
 - `> [!case-study]` for case study callout blocks (the only callout type used)
 - ` ```typescript ` for code blocks (TypeScript only)
 - Standard bold, italic, inline code, and blockquote formatting
+
+## Important: Trailing Slash Configuration
+
+The site has `trailingSlash: 'always'` in `astro.config.mjs`. All book URLs **must** end with a trailing slash:
+
+- Correct: `/book/ch-1-from-hierarchy-to-intelligence/`
+- Wrong: `/book/ch-1-from-hierarchy-to-intelligence` (causes 301 redirect on GitHub Pages, 404 on dev server)
+
+**Why this matters:** GitHub Pages serves directory-based routes at `/book/slug/` and 301-redirects `/book/slug` → `/book/slug/`. Missing trailing slashes cause slower page loads, Google Search Console "Page with redirect" warnings, and broken client-side navigation.
+
+**`CHAPTER_SLUG_MAP` values are bare slugs** (e.g., `"ch-1-from-hierarchy-to-intelligence"` — no trailing slash). Every caller must append `/` when constructing hrefs or URLs. Files that generate book chapter URLs:
+
+| File | Pattern | Correct |
+|------|---------|---------|
+| `src/pages/book/index.astro` | `href={/book/${CHAPTER_SLUG_MAP[id]}/}` | 4 occurrences |
+| `src/components/book/book-reader.tsx` | `replaceState({}, "", /book/${slug}/)` | 1 occurrence |
+
+**After every sync**, grep for bare `CHAPTER_SLUG_MAP` usage without trailing slashes:
+
+```bash
+grep -n 'CHAPTER_SLUG_MAP\[' src/pages/book/index.astro | grep -v "/'}"
+```
+
+Any matches indicate missing trailing slashes that must be fixed.

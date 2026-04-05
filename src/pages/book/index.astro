@@ -9,6 +9,8 @@ import { SITE, PUBLISHER } from '../../data/seo';
 import BrowserFrame from '../../components/ui/BrowserFrame.astro';
 
 const totalReadingTime = CHAPTERS.reduce((sum, ch) => sum + ch.readingTime, 0);
+const totalWords = CHAPTERS.reduce((sum, ch) => sum + ch.wordCount, 0);
+const totalPages = Math.ceil(totalWords / 250);
 
 const jsonLd = [
   {
@@ -19,7 +21,7 @@ const jsonLd = [
     publisher: PUBLISHER,
     url: `${SITE.url}/book/`,
     inLanguage: 'en',
-    numberOfPages: CHAPTERS.length,
+    numberOfPages: totalPages,
     accessMode: 'textual',
     isAccessibleForFree: true,
   },
@@ -68,9 +70,21 @@ const jsonLd = [
           </svg>
           {PARTS.length} parts
         </span>
+        <span class="inline-flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M4 7V4h16v3M9 20h6M12 4v16"/>
+          </svg>
+          {totalWords.toLocaleString()} words
+        </span>
+        <span class="inline-flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+          </svg>
+          ~{totalPages} pages
+        </span>
       </div>
       <a
-        href={`/book/${CHAPTER_SLUG_MAP['ch-1']}`}
+        href={`/book/${CHAPTER_SLUG_MAP['ch-1']}/`}
         class="inline-flex items-center gap-2 bg-primary text-white font-medium px-6 py-3 rounded-lg hover:opacity-90 transition-opacity no-underline"
       >
         Start Reading
@@ -95,7 +109,7 @@ const jsonLd = [
               <div class="space-y-2">
                 {partChapters.map((ch) => (
                   <a
-                    href={`/book/${CHAPTER_SLUG_MAP[ch.id]}`}
+                    href={`/book/${CHAPTER_SLUG_MAP[ch.id]}/`}
                     class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-surface-overlay transition-colors group no-underline"
                   >
                     <span class="w-6 h-6 rounded-md bg-primary-dim text-primary text-xs font-semibold flex items-center justify-center shrink-0">
@@ -127,7 +141,7 @@ const jsonLd = [
       <div class="grid sm:grid-cols-2 gap-4">
         {READING_PATHS.map((rp) => (
           <a
-            href={`/book/${CHAPTER_SLUG_MAP[rp.chapterIds[0]]}`}
+            href={`/book/${CHAPTER_SLUG_MAP[rp.chapterIds[0]]}/`}
             class="rounded-xl border border-border bg-surface-raised p-5 hover:border-primary/30 transition-colors group no-underline"
           >
             <div class="flex items-center justify-between mb-2">
@@ -180,7 +194,7 @@ const jsonLd = [
           intelligence — every pattern built with working code.
         </p>
         <a
-          href={`/book/${CHAPTER_SLUG_MAP['ch-1']}`}
+          href={`/book/${CHAPTER_SLUG_MAP['ch-1']}/`}
           class="inline-flex items-center gap-2 bg-primary text-white font-medium px-6 py-3 rounded-lg hover:opacity-90 transition-opacity no-underline"
         >
           Begin Reading
