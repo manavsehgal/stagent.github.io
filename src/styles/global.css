@@ -1,10 +1,34 @@
 @import "tailwindcss";
 
-/* ── Fontsource imports ── */
-@import "@fontsource/geist-sans/400.css";
-@import "@fontsource/geist-sans/500.css";
-@import "@fontsource/geist-sans/700.css";
-@import "@fontsource-variable/geist-mono";
+/* ── Self-hosted fonts (preloaded in Layout.astro) ── */
+@font-face {
+  font-family: 'Geist Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url('/fonts/geist-sans-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Geist Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url('/fonts/geist-sans-latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Geist Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url('/fonts/geist-sans-latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Geist Mono Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('/fonts/geist-mono-latin-wght-normal.woff2') format('woff2');
+}
 
 /* ── Design Tokens (OKLCH hue 250 blue-indigo) ── */
 @theme {
@@ -58,7 +82,7 @@ html[data-theme="light"] {
   --color-surface-overlay: oklch(0.94 0.008 260);
   --color-text: oklch(0.15 0.02 260);
   --color-text-muted: oklch(0.45 0.03 260);
-  --color-text-dim: oklch(0.55 0.03 260);
+  --color-text-dim: oklch(0.47 0.03 260);
   --color-primary: oklch(0.55 0.18 260);
   --color-primary-dim: oklch(0.55 0.18 260 / 0.10);
   --color-primary-glow: oklch(0.55 0.18 260 / 0.20);
@@ -124,9 +148,16 @@ body::before {
   z-index: 30;
   pointer-events: none;
   opacity: 0.03;
+  will-change: transform;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px 256px;
+}
+
+@media (max-width: 639px) {
+  body::before {
+    display: none;
+  }
 }
 
 /* ── Typography ── */
@@ -172,14 +203,24 @@ section {
 [data-animate-stagger] > [data-animate]:nth-child(6) { transition-delay: 400ms; }
 [data-animate-stagger] > [data-animate]:nth-child(7) { transition-delay: 480ms; }
 
-/* ── Primary glow pulse ── */
-@keyframes primary-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 var(--color-primary-dim); }
-  50% { box-shadow: 0 0 24px 4px var(--color-primary-glow); }
-}
-
+/* ── Primary glow pulse (GPU-composited via opacity) ── */
 .primary-pulse {
+  position: relative;
+}
+.primary-pulse::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 24px 4px var(--color-primary-glow);
+  opacity: 0;
   animation: primary-pulse 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes primary-pulse {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
 }
 
 /* ── SVG scroll-reveal animations ── */
