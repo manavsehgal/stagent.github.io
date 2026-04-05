@@ -22,7 +22,17 @@ export function parseMarkdownChapter(
   markdown: string,
   chapterSlug: string
 ): { sections: ParsedSection[] } {
-  const lines = markdown.split("\n");
+  // Strip leading H1 lines — the chapter title is already rendered by the reader chrome
+  const lines = markdown.split("\n").filter(
+    (line, i, arr) => {
+      if (!line.startsWith("# ") || line.startsWith("## ")) return true;
+      // Only strip H1 lines that appear before the first ## section heading
+      for (let j = 0; j < i; j++) {
+        if (arr[j].startsWith("## ")) return true;
+      }
+      return false;
+    }
+  );
   const sections: ParsedSection[] = [];
 
   const sectionChunks: Array<{ title: string; lines: string[] }> = [];
