@@ -59,6 +59,8 @@ export function parseMarkdownChapter(
   }
 
   for (const chunk of sectionChunks) {
+    // Skip empty Introduction sections (e.g. when only a stripped H1 was present)
+    if (chunk.title === "Introduction" && chunk.lines.every((l) => l.trim() === "")) continue;
     const sectionId = generateSectionId(chapterSlug, chunk.title);
     const content = parseContentBlocks(chunk.lines);
     sections.push({ id: sectionId, title: chunk.title, content });
