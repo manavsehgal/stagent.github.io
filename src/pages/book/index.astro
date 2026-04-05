@@ -36,62 +36,77 @@ const jsonLd = [
 
   <main class="pt-28 pb-32">
     <!-- Hero -->
-    <section class="max-w-4xl mx-auto px-6 text-center mb-20" data-animate>
-      <p class="font-mono text-xs tracking-widest text-success uppercase mb-4">
-        Free Online Book
-      </p>
-      <h1 class="text-5xl sm:text-6xl font-bold tracking-tight mb-4">
-        AI Native
-      </h1>
-      <p class="text-xl sm:text-2xl text-text-muted max-w-2xl mx-auto mb-6">
-        Building Autonomous Business Systems with AI Agents
-      </p>
-      <p class="text-sm text-text-muted max-w-xl mx-auto mb-8">
-        From two thousand years of organizational design to autonomous business
-        systems. Every pattern demonstrated with working code from Stagent — a
-        tool that built itself.
-      </p>
-      <div class="flex items-center justify-center gap-6 text-sm text-text-muted mb-10">
-        <span class="inline-flex items-center gap-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-          </svg>
-          {CHAPTERS.length} chapters
-        </span>
-        <span class="inline-flex items-center gap-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
-          </svg>
-          ~{totalReadingTime} min read
-        </span>
-        <span class="inline-flex items-center gap-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
-          </svg>
-          {PARTS.length} parts
-        </span>
-        <span class="inline-flex items-center gap-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M4 7V4h16v3M9 20h6M12 4v16"/>
-          </svg>
-          {totalWords.toLocaleString()} words
-        </span>
-        <span class="inline-flex items-center gap-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
-          </svg>
-          ~{totalPages} pages
-        </span>
+    <section class="relative px-6 overflow-x-clip pt-4 pb-8 mb-12">
+      <!-- Atmospheric glow -->
+      <div class="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
+        <div class="absolute w-[600px] h-[600px] rounded-full bg-primary/[0.08] blur-[150px]"></div>
       </div>
-      <a
-        href={`/book/${CHAPTER_SLUG_MAP['ch-1']}/`}
-        class="inline-flex items-center gap-2 bg-primary text-white font-medium px-6 py-3 rounded-lg hover:opacity-90 transition-opacity no-underline"
-      >
-        Start Reading
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
-      </a>
+
+      <!-- Bottom gradient fade into parts grid -->
+      <div class="absolute bottom-0 left-0 right-0 h-32 pointer-events-none" style="background: linear-gradient(to bottom, transparent, var(--color-surface-raised));"></div>
+
+      <!-- Two-column grid: content left, book cover right -->
+      <div class="relative z-10 w-full max-w-5xl mx-auto grid lg:grid-cols-[1fr_auto] gap-8 lg:gap-10 items-center">
+
+        <!-- Left column: Content -->
+        <div class="text-center lg:text-left" data-animate-stagger>
+
+          <p data-animate class="font-mono text-[10px] tracking-[0.2em] uppercase text-success mb-4">
+            Free Online Book
+          </p>
+
+          <h1 data-animate class="book-hero-gradient font-display text-[clamp(2.2rem,4.5vw,3.5rem)] font-bold leading-[1.1] mb-3">
+            AI Native
+          </h1>
+
+          <p data-animate class="text-[clamp(1rem,2vw,1.25rem)] text-text-muted leading-relaxed mb-5 max-w-xl mx-auto lg:mx-0">
+            Building Autonomous Business Systems with AI Agents
+          </p>
+
+          <p data-animate class="text-sm text-text-muted leading-relaxed max-w-md mx-auto lg:mx-0 mb-6">
+            From two thousand years of organizational design to autonomous business
+            systems. Every pattern demonstrated with working code from Stagent,
+            a platform that built itself.
+          </p>
+
+          <!-- Value pills -->
+          <div data-animate class="flex items-center justify-center lg:justify-start gap-1.5 flex-wrap mb-6 max-w-md mx-auto lg:mx-0">
+            <span class="font-mono text-[10px] tracking-wider text-primary border border-primary/20 bg-primary/5 rounded-full px-2.5 py-1">{CHAPTERS.length} Chapters</span>
+            <span class="font-mono text-[10px] tracking-wider text-primary border border-primary/20 bg-primary/5 rounded-full px-2.5 py-1">{PARTS.length} Parts</span>
+            <span class="font-mono text-[10px] tracking-wider text-primary border border-primary/20 bg-primary/5 rounded-full px-2.5 py-1">~{totalReadingTime} Min Read</span>
+            <span class="font-mono text-[10px] tracking-wider text-primary border border-primary/20 bg-primary/5 rounded-full px-2.5 py-1">{totalWords.toLocaleString()} Words</span>
+          </div>
+
+          <!-- CTA -->
+          <div data-animate>
+            <a
+              href={`/book/${CHAPTER_SLUG_MAP['ch-1']}/`}
+              class="inline-flex items-center gap-2 bg-primary text-white font-medium px-7 py-3.5 rounded-lg hover:opacity-90 transition-opacity no-underline primary-pulse"
+            >
+              Start Reading
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Right column: Book cover -->
+        <div data-animate class="book-cover-float flex items-center justify-center" style="transition-delay: 200ms">
+          <img
+            src="/book/images/ai-native-book-cover.png"
+            alt="AI Native book cover — Building Autonomous Business Systems with AI Agents"
+            width="1024"
+            height="1536"
+            class="w-auto max-w-[720px] sm:max-w-[900px] lg:max-w-[1080px] max-h-[calc(100dvh-12rem)] h-auto"
+            style="transform: perspective(800px) rotateY(-5deg) rotateX(2deg); filter: drop-shadow(-8px 12px 24px oklch(0.2 0.04 250 / 0.35)) drop-shadow(0 0 60px oklch(0.55 0.18 250 / 0.15));"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+
+      </div>
     </section>
 
     <!-- Parts Grid -->
@@ -208,3 +223,26 @@ const jsonLd = [
 
   <Footer />
 </Layout>
+
+<style>
+  /* ── Book hero gradient text (matches Hero.astro pattern) ── */
+  .book-hero-gradient {
+    background: linear-gradient(135deg, oklch(0.78 0.12 230), var(--color-primary), oklch(0.58 0.18 280));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── Book cover ambient float ── */
+  .book-cover-float {
+    animation: book-float 6s ease-in-out infinite;
+  }
+  @keyframes book-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .book-cover-float { animation: none; }
+  }
+</style>
