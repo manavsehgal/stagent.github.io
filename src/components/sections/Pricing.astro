@@ -5,8 +5,11 @@ import WaitlistForm from '../ui/WaitlistForm.astro';
 const tiers = [
   {
     name: 'Community',
-    price: 'Free',
-    period: 'forever',
+    monthlyPrice: 'Free',
+    monthlyPeriod: 'forever',
+    annualPrice: 'Free',
+    annualPeriod: 'forever',
+    annualSaving: '',
     target: 'For individual developers and evaluation',
     features: [
       'Full local workspace',
@@ -21,9 +24,10 @@ const tiers = [
   },
   {
     name: 'Solo',
-    price: '$19',
-    period: '/mo',
-    annualPrice: '$190/yr',
+    monthlyPrice: '$19',
+    monthlyPeriod: '/mo',
+    annualPrice: '$190',
+    annualPeriod: '/yr',
     annualSaving: 'Save $38',
     target: 'For power users who need room to grow',
     features: [
@@ -34,13 +38,19 @@ const tiers = [
       'Import marketplace blueprints',
       'Telemetry benchmarks',
     ],
-    cta: { type: 'link' as const, text: 'Get Solo', href: 'https://buy.stripe.com/fZufZjgKC4q9azrgDzdwc06' },
+    cta: {
+      type: 'link' as const,
+      text: 'Get Solo',
+      monthlyHref: 'https://buy.stripe.com/fZufZjgKC4q9azrgDzdwc06',
+      annualHref: 'https://buy.stripe.com/bJe00l1PI7Cl7nf1IFdwc0b',
+    },
   },
   {
     name: 'Operator',
-    price: '$49',
-    period: '/mo',
-    annualPrice: '$490/yr',
+    monthlyPrice: '$49',
+    monthlyPeriod: '/mo',
+    annualPrice: '$490',
+    annualPeriod: '/yr',
     annualSaving: 'Save $98',
     target: 'For professionals running AI at scale',
     badge: 'Most Popular',
@@ -54,13 +64,19 @@ const tiers = [
       '50 active schedules',
       '1-year history retention',
     ],
-    cta: { type: 'link' as const, text: 'Get Operator', href: 'https://buy.stripe.com/aFa4gB0LE9Kt22Vevrdwc07' },
+    cta: {
+      type: 'link' as const,
+      text: 'Get Operator',
+      monthlyHref: 'https://buy.stripe.com/aFa4gB0LE9Kt22Vevrdwc07',
+      annualHref: 'https://buy.stripe.com/bJe6oJdyq2i1bDv1IFdwc0a',
+    },
   },
   {
     name: 'Scale',
-    price: '$99',
-    period: '/mo',
-    annualPrice: '$990/yr',
+    monthlyPrice: '$99',
+    monthlyPeriod: '/mo',
+    annualPrice: '$990',
+    annualPeriod: '/yr',
     annualSaving: 'Save $198',
     target: 'For teams — no limits, no compromises',
     features: [
@@ -70,7 +86,12 @@ const tiers = [
       'Featured marketplace listings (80/20 split)',
       'Priority support',
     ],
-    cta: { type: 'link' as const, text: 'Get Scale', href: 'https://buy.stripe.com/9B628t2TM5udazr72Zdwc08' },
+    cta: {
+      type: 'link' as const,
+      text: 'Get Scale',
+      monthlyHref: 'https://buy.stripe.com/9B628t2TM5udazr72Zdwc08',
+      annualHref: 'https://buy.stripe.com/dRmfZjbqicWF5f7873dwc09',
+    },
   },
 ];
 
@@ -91,11 +112,31 @@ const creatorBenefits = [
       <p data-animate class="text-text-muted max-w-2xl mx-auto" style="transition-delay: 80ms">
         Community edition is free forever with no feature removal. Premium tiers add cloud sync, expanded limits, analytics, and marketplace access.
       </p>
+
+      <!-- Billing toggle -->
+      <div data-animate class="flex justify-center mt-8" style="transition-delay: 120ms">
+        <div id="billing-toggle" class="inline-flex items-center gap-1 rounded-lg border border-border p-0.5">
+          <button
+            type="button"
+            data-period="monthly"
+            class="billing-tab px-4 py-1.5 text-xs font-mono tracking-wider uppercase rounded-md transition-colors bg-primary text-surface"
+          >
+            Monthly
+          </button>
+          <button
+            type="button"
+            data-period="annual"
+            class="billing-tab px-4 py-1.5 text-xs font-mono tracking-wider uppercase rounded-md transition-colors text-text-muted hover:text-text"
+          >
+            Annual
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Product tiers -->
     <div data-animate-stagger class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
-      {tiers.map(({ name, price, period, annualPrice, annualSaving, target, badge, highlight, features, cta }) => (
+      {tiers.map(({ name, monthlyPrice, monthlyPeriod, annualPrice, annualPeriod, annualSaving, target, badge, highlight, features, cta }) => (
         <div
           data-animate
           class:list={[
@@ -112,12 +153,11 @@ const creatorBenefits = [
           <div class="mb-5">
             <div class="text-xs font-mono tracking-widest uppercase text-text-muted/60 mb-1">{name}</div>
             <div class="flex items-baseline gap-1">
-              <span class="text-3xl font-bold">{price}</span>
-              {period && <span class="text-sm text-text-muted">{period}</span>}
+              <span class="text-3xl font-bold" data-monthly-price={monthlyPrice} data-annual-price={annualPrice}>{monthlyPrice}</span>
+              <span class="text-sm text-text-muted" data-monthly-period={monthlyPeriod} data-annual-period={annualPeriod}>{monthlyPeriod}</span>
             </div>
-            {annualPrice && (
-              <div class="flex items-center gap-2 mt-1">
-                <span class="text-xs text-text-muted">{annualPrice}</span>
+            {annualSaving && (
+              <div class="flex items-center gap-2 mt-1 billing-saving hidden">
                 <span class="text-[10px] font-mono text-primary">{annualSaving}</span>
               </div>
             )}
@@ -141,7 +181,9 @@ const creatorBenefits = [
             </div>
           ) : (
             <a
-              href={cta.type === 'link' ? cta.href : '#waitlist'}
+              href={'monthlyHref' in cta ? cta.monthlyHref : '#waitlist'}
+              data-monthly-href={'monthlyHref' in cta ? cta.monthlyHref : undefined}
+              data-annual-href={'annualHref' in cta ? cta.annualHref : undefined}
               class:list={[
                 'block text-center font-mono text-xs tracking-[0.15em] uppercase py-2.5 rounded-md transition-colors',
                 highlight
@@ -194,3 +236,46 @@ const creatorBenefits = [
     </div>
   </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll<HTMLButtonElement>('.billing-tab');
+    const prices = document.querySelectorAll<HTMLElement>('[data-monthly-price]');
+    const periods = document.querySelectorAll<HTMLElement>('[data-monthly-period]');
+    const savings = document.querySelectorAll<HTMLElement>('.billing-saving');
+    const links = document.querySelectorAll<HTMLAnchorElement>('[data-monthly-href]');
+
+    function switchPeriod(period: 'monthly' | 'annual') {
+      tabs.forEach((tab) => {
+        const isActive = tab.dataset.period === period;
+        tab.classList.toggle('bg-primary', isActive);
+        tab.classList.toggle('text-surface', isActive);
+        tab.classList.toggle('text-text-muted', !isActive);
+        tab.classList.toggle('hover:text-text', !isActive);
+      });
+
+      prices.forEach((el) => {
+        el.textContent = period === 'annual' ? el.dataset.annualPrice! : el.dataset.monthlyPrice!;
+      });
+
+      periods.forEach((el) => {
+        el.textContent = period === 'annual' ? el.dataset.annualPeriod! : el.dataset.monthlyPeriod!;
+      });
+
+      savings.forEach((el) => {
+        el.classList.toggle('hidden', period !== 'annual');
+      });
+
+      links.forEach((el) => {
+        const href = period === 'annual' ? el.dataset.annualHref : el.dataset.monthlyHref;
+        if (href) el.href = href;
+      });
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        switchPeriod(tab.dataset.period as 'monthly' | 'annual');
+      });
+    });
+  });
+</script>
