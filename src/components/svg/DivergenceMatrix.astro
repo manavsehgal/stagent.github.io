@@ -1,0 +1,134 @@
+---
+/**
+ * DivergenceMatrix — case-study Figure 3.
+ * 2×2 quadrant: news sentiment (X, bearish → bullish)
+ * × prediction-market direction (Y, falling → rising).
+ * Bullish divergence (top-left) and bearish divergence (bottom-right)
+ * are the signal quadrants. Convergent quadrants are noise for traders.
+ *
+ * Source: src/pages/research/solo-builder-case-study.mdx §4 table.
+ */
+
+type Dot = { label: string; x: number; y: number; highlight?: boolean };
+
+// Dots placed in the matrix per the paper's table.
+// NVDA: news bearish, probability rising → bullish divergence (top-left)
+// Oil:  news bullish, probability falling → bearish divergence (bottom-right)
+// Recession: news neutral, probability rising → top-center
+// Tariffs: news bearish, probability flat → center-left
+const dots: Dot[] = [
+  { label: 'NVDA',      x: 170, y: 130, highlight: true  },
+  { label: 'Oil',       x: 440, y: 340, highlight: true  },
+  { label: 'Recession', x: 305, y: 120                    },
+  { label: 'Tariffs',   x: 180, y: 250                    },
+];
+---
+<svg
+  viewBox="0 0 560 520"
+  xmlns="http://www.w3.org/2000/svg"
+  class="w-full max-w-sm mx-auto"
+  data-svg-animate
+  role="img"
+  aria-label="Divergence detection matrix: news sentiment versus prediction market direction"
+>
+  <!-- Panel + quadrant divider -->
+  <g class="svg-reveal">
+    <rect x="70" y="20" width="460" height="440" rx="8"
+          fill="var(--svg-card-fill)" stroke="var(--svg-stroke)" stroke-width="1" />
+    <line x1="300" y1="20" x2="300" y2="460"
+          stroke="var(--svg-stroke)" stroke-width="1" stroke-dasharray="4 4" />
+    <line x1="70" y1="240" x2="530" y2="240"
+          stroke="var(--svg-stroke)" stroke-width="1" stroke-dasharray="4 4" />
+  </g>
+
+  <!-- Axis labels -->
+  <g class="svg-reveal svg-reveal-d1">
+    <text x="300" y="500" fill="var(--svg-text-muted)"
+          font-family="var(--font-mono)" font-size="14" text-anchor="middle">
+      NEWS SENTIMENT →
+    </text>
+    <text x="88" y="10" fill="var(--svg-text-muted)"
+          font-family="var(--font-mono)" font-size="10">BEARISH</text>
+    <text x="512" y="10" fill="var(--svg-text-muted)"
+          font-family="var(--font-mono)" font-size="10" text-anchor="end">BULLISH</text>
+
+    <text x="44" y="240" fill="var(--svg-text-muted)"
+          font-family="var(--font-mono)" font-size="14" text-anchor="middle"
+          transform="rotate(-90 44 240)">
+      PREDICTION MKT →
+    </text>
+    <text x="62" y="32" fill="var(--svg-text-muted)"
+          font-family="var(--font-mono)" font-size="10" text-anchor="end">RISING</text>
+    <text x="62" y="456" fill="var(--svg-text-muted)"
+          font-family="var(--font-mono)" font-size="10" text-anchor="end">FALLING</text>
+  </g>
+
+  <!-- Highlight signal quadrants (bullish & bearish divergence) -->
+  <g class="svg-reveal svg-reveal-d2">
+    <rect x="71" y="21" width="228" height="218" rx="6"
+          fill="var(--svg-accent-green)" fill-opacity="0.07" />
+    <rect x="301" y="241" width="228" height="218" rx="6"
+          fill="var(--svg-accent-red)" fill-opacity="0.07" />
+  </g>
+
+  <!-- Quadrant labels -->
+  <g class="svg-reveal svg-reveal-d3">
+    <!-- TL: Bullish divergence (signal) -->
+    <text x="185" y="58" fill="var(--svg-accent-green)"
+          font-family="var(--font-body)" font-size="15" font-weight="600"
+          text-anchor="middle">Bullish divergence</text>
+    <text x="185" y="76" fill="var(--svg-text-muted)"
+          font-family="var(--font-body)" font-size="11" text-anchor="middle">
+      review for entry
+    </text>
+
+    <!-- TR: Convergent bull -->
+    <text x="415" y="58" fill="var(--svg-text-extra-dim)"
+          font-family="var(--font-body)" font-size="15" text-anchor="middle">
+      Convergent bull
+    </text>
+    <text x="415" y="76" fill="var(--svg-text-muted)"
+          font-family="var(--font-body)" font-size="11" text-anchor="middle">
+      news + market agree
+    </text>
+
+    <!-- BL: Convergent bear -->
+    <text x="185" y="402" fill="var(--svg-text-extra-dim)"
+          font-family="var(--font-body)" font-size="15" text-anchor="middle">
+      Convergent bear
+    </text>
+    <text x="185" y="420" fill="var(--svg-text-muted)"
+          font-family="var(--font-body)" font-size="11" text-anchor="middle">
+      both pointing down
+    </text>
+
+    <!-- BR: Bearish divergence (signal) -->
+    <text x="415" y="402" fill="var(--svg-accent-red)"
+          font-family="var(--font-body)" font-size="15" font-weight="600"
+          text-anchor="middle">Bearish divergence</text>
+    <text x="415" y="420" fill="var(--svg-text-muted)"
+          font-family="var(--font-body)" font-size="11" text-anchor="middle">
+      review for exit
+    </text>
+  </g>
+
+  <!-- Example dots -->
+  {dots.map(({ label, x, y, highlight }, i) => (
+    <g class={`dot-pop svg-reveal-d${4 + i}`} style={`transform-origin: ${x}px ${y}px`}>
+      {highlight && (
+        <circle cx={x} cy={y} r="12"
+                fill={highlight ? 'var(--svg-accent-blue)' : 'var(--svg-text-muted)'}
+                fill-opacity="0.25" />
+      )}
+      <circle cx={x} cy={y} r={highlight ? 6 : 5}
+              fill={highlight ? 'var(--svg-accent-blue)' : 'var(--svg-text-muted)'}
+              fill-opacity={highlight ? 1 : 0.55} />
+      <text x={x + 10} y={y + 4}
+            fill={highlight ? 'var(--svg-accent-blue)' : 'var(--svg-text-muted)'}
+            font-family="var(--font-mono)" font-size="11"
+            font-weight={highlight ? 600 : 400}>
+        {label}
+      </text>
+    </g>
+  ))}
+</svg>

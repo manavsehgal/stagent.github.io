@@ -1,0 +1,215 @@
+---
+/**
+ * BuildCascade — signature figure for the Solo Builder Case Study.
+ * Cumulative lines-of-code across 11 commits on a single day,
+ * reaching 7,435 LOC. Stepped-area chart with commit dots.
+ *
+ * Data source: src/pages/research/solo-builder-case-study.mdx §3 timeline.
+ */
+
+type Commit = { label: string; cum: number };
+
+const commits: Commit[] = [
+  { label: 'Foundation', cum: 2181 },
+  { label: 'Bento',      cum: 2624 },
+  { label: 'Links',      cum: 2637 },
+  { label: 'Spec',       cum: 3358 },
+  { label: 'Macro',      cum: 3885 },
+  { label: 'Rebalance',  cum: 4484 },
+  { label: 'Divergence', cum: 5261 },
+  { label: 'Scenario',   cum: 6100 },
+  { label: 'Nav fix',    cum: 6142 },
+  { label: 'Conviction', cum: 7036 },
+  { label: 'Platform',   cum: 7435 },
+];
+
+// Plot geometry
+const plotX0 = 70;
+const plotX1 = 720;
+const plotY0 = 40;  // top
+const plotY1 = 260; // bottom
+const plotW = plotX1 - plotX0;
+const plotH = plotY1 - plotY0;
+const yMax = 8000;
+
+const stepW = plotW / commits.length;
+const xAt = (i: number) => plotX0 + (i + 1) * stepW;
+const yAt = (v: number) => plotY1 - (v / yMax) * plotH;
+
+// Build stepped-area path
+let pathD = `M ${plotX0} ${plotY1}`; // start bottom-left
+let prevX = plotX0;
+for (let i = 0; i < commits.length; i++) {
+  const x = xAt(i);
+  const y = yAt(commits[i].cum);
+  pathD += ` H ${x} V ${y}`;
+  prevX = x;
+}
+pathD += ` L ${prevX} ${plotY1} Z`;
+
+// Stroke path (same steps, but no close)
+let strokeD = `M ${plotX0} ${plotY1}`;
+for (let i = 0; i < commits.length; i++) {
+  const x = xAt(i);
+  const y = yAt(commits[i].cum);
+  strokeD += ` H ${x} V ${y}`;
+}
+
+const yTicks = [2000, 4000, 6000, 8000];
+---
+<svg
+  viewBox="0 0 780 360"
+  xmlns="http://www.w3.org/2000/svg"
+  class="w-full max-w-2xl mx-auto"
+  data-svg-animate
+  role="img"
+  aria-label="Cumulative lines of code across 11 commits reaching 7,435 on a single day"
+>
+  <!-- Panel background -->
+  <rect
+    x="40" y="20" width="720" height="260" rx="10"
+    fill="var(--svg-bg)"
+    stroke="var(--svg-stroke)"
+    stroke-width="1"
+  />
+
+  <!-- Y-axis grid lines and labels -->
+  <g class="svg-reveal">
+    {yTicks.map((tick) => {
+      const y = yAt(tick);
+      return (
+        <g>
+          <line
+            x1={plotX0} y1={y}
+            x2={plotX1} y2={y}
+            stroke="var(--svg-stroke)"
+            stroke-width="0.5"
+            stroke-dasharray="2 4"
+          />
+          <text
+            x={plotX0 - 8} y={y + 4}
+            fill="var(--svg-text-muted)"
+            font-family="var(--font-mono)"
+            font-size="11"
+            text-anchor="end"
+          >
+            {(tick / 1000).toFixed(0)}k
+          </text>
+        </g>
+      );
+    })}
+  </g>
+
+  <!-- Baseline -->
+  <line
+    x1={plotX0} y1={plotY1}
+    x2={plotX1} y2={plotY1}
+    stroke="var(--svg-stroke)"
+    stroke-width="1"
+  />
+
+  <!-- Stepped area fill -->
+  <path
+    d={pathD}
+    fill="var(--svg-accent-blue)"
+    fill-opacity="0.18"
+    class="svg-reveal svg-reveal-d1"
+  />
+
+  <!-- Stepped stroke line -->
+  <path
+    d={strokeD}
+    fill="none"
+    stroke="var(--svg-accent-blue)"
+    stroke-width="2"
+    stroke-linecap="square"
+    stroke-linejoin="miter"
+    class="line-draw"
+    style="stroke-dasharray: 2000; stroke-dashoffset: 2000;"
+  />
+
+  <!-- Commit dots + labels -->
+  {commits.map(({ label, cum }, i) => {
+    const x = xAt(i);
+    const y = yAt(cum);
+    const isFinal = i === commits.length - 1;
+    const delay = Math.min(i + 1, 8);
+    return (
+      <g class={`dot-pop svg-reveal-d${delay}`} style={`transform-origin: ${x}px ${y}px`}>
+        <circle
+          cx={x} cy={y}
+          r={isFinal ? 5 : 3.5}
+          fill="var(--svg-bg)"
+          stroke="var(--svg-accent-blue)"
+          stroke-width="2"
+        />
+        {/* Commit short label rotated -35° below axis */}
+        <text
+          x={x} y={plotY1 + 18}
+          fill="var(--svg-text-muted)"
+          font-family="var(--font-mono)"
+          font-size="10"
+          text-anchor="end"
+          transform={`rotate(-35 ${x} ${plotY1 + 18})`}
+        >
+          {`C${i + 1} ${label}`}
+        </text>
+      </g>
+    );
+  })}
+
+  <!-- Axis labels -->
+  <text
+    x={(plotX0 + plotX1) / 2} y="345"
+    fill="var(--svg-text-muted)"
+    font-family="var(--font-mono)"
+    font-size="11"
+    text-anchor="middle"
+  >
+    11 COMMITS · APRIL 6, 2026
+  </text>
+  <text
+    x="26" y={(plotY0 + plotY1) / 2}
+    fill="var(--svg-text-muted)"
+    font-family="var(--font-mono)"
+    font-size="11"
+    text-anchor="middle"
+    transform={`rotate(-90 26 ${(plotY0 + plotY1) / 2})`}
+  >
+    CUMULATIVE LOC
+  </text>
+
+  <!-- Final callout -->
+  <g class="svg-reveal svg-reveal-d8">
+    <line
+      x1={xAt(commits.length - 1) + 8}
+      y1={yAt(7435) - 2}
+      x2={xAt(commits.length - 1) + 30}
+      y2={yAt(7435) - 18}
+      stroke="var(--svg-accent-blue)"
+      stroke-width="1"
+    />
+    <text
+      x={xAt(commits.length - 1) + 34}
+      y={yAt(7435) - 22}
+      fill="var(--svg-accent-blue)"
+      font-family="var(--font-mono)"
+      font-size="16"
+      font-weight="700"
+      text-anchor="end"
+    >
+      7,435
+    </text>
+    <text
+      x={xAt(commits.length - 1) + 34}
+      y={yAt(7435) - 8}
+      fill="var(--svg-accent-blue)"
+      font-family="var(--font-mono)"
+      font-size="9"
+      text-anchor="end"
+      fill-opacity="0.75"
+    >
+      LINES · 1 DAY
+    </text>
+  </g>
+</svg>
