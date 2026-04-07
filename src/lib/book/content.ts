@@ -14,6 +14,7 @@ export const CHAPTER_SLUG_MAP: Record<string, string> = {
   "ch-10": "ch-10-the-world-model",
   "ch-11": "ch-11-the-machine-that-builds-machines",
   "ch-12": "ch-12-the-road-ahead",
+  "ch-13": "ch-13-the-wealth-manager",
 };
 
 export const PARTS: BookPart[] = [
@@ -172,6 +173,17 @@ export const CHAPTERS: BookChapter[] = [
     part: PARTS[3],
     readingTime: 10,
     wordCount: 2416,
+    relatedDocs: ["workflows", "profiles", "schedules"],
+    sections: [],
+  },
+  {
+    id: "ch-13",
+    number: 13,
+    title: "The Wealth Manager",
+    subtitle: "When a Solo Founder Builds a Domain Application in a Day Using the Machine That Built Itself",
+    part: PARTS[3],
+    readingTime: 16,
+    wordCount: 3976,
     relatedDocs: ["workflows", "profiles", "schedules"],
     sections: [],
   },

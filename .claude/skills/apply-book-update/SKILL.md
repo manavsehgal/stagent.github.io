@@ -5,7 +5,7 @@ description: Sync book content from the Stagent product to the stagent.io websit
 
 # Apply Book Update Skill
 
-Syncs the "AI Native" book content (12 chapter markdown files + images) from the Stagent product repository to the stagent.io marketing website. The book lives as a React island reader at `/book/[chapter-slug]` and content is parsed at Astro build time.
+Syncs the "AI Native" book content (13 chapter markdown files + images) from the Stagent product repository to the stagent.io marketing website. The book lives as a React island reader at `/book/[chapter-slug]` and content is parsed at Astro build time.
 
 ## Source and Target Paths
 
@@ -32,6 +32,7 @@ The website project root is `/Users/manavsehgal/Developer/stagent.github.io/`.
 | ch-10 | `ch-10-the-world-model.md` | 4 |
 | ch-11 | `ch-11-the-machine-that-builds-machines.md` | 4 |
 | ch-12 | `ch-12-the-road-ahead.md` | 4 |
+| ch-13 | `ch-13-the-wealth-manager.md` | 4 |
 
 ## Complete File Manifest
 
@@ -111,7 +112,7 @@ If nothing changed and mode is incremental, report "Book content is up to date" 
 
 ### Step 3: Copy Chapters
 
-**Migration/Fresh mode**: Delete all old chapter files, then copy all 12 new ones:
+**Migration/Fresh mode**: Delete all old chapter files, then copy all 13 new ones:
 
 ```bash
 rm -f src/data/book/chapters/ch-*.md
@@ -146,7 +147,7 @@ Update each file as needed:
 
 #### 5a. `src/lib/book/content.ts`
 
-Update `CHAPTER_SLUG_MAP` to map all 12 chapter IDs to their filenames. Update `PARTS` array to 4 parts. Update `CHAPTERS` array with all 12 entries — read frontmatter from each source chapter file to populate `title`, `subtitle`, `readingTime`, `wordCount`, `relatedDocs`, and `relatedJourney`.
+Update `CHAPTER_SLUG_MAP` to map all 13 chapter IDs to their filenames. Update `PARTS` array to 4 parts. Update `CHAPTERS` array with all 13 entries — read frontmatter from each source chapter file to populate `title`, `subtitle`, `readingTime`, `wordCount`, `relatedDocs`, and `relatedJourney`.
 
 For `wordCount`, run `wc -w` on each source chapter file and use the result. This field drives the "X words" and "~Y pages" stats on the landing page.
 
@@ -154,7 +155,7 @@ Part assignments:
 - Part 1: ch-1, ch-2
 - Part 2: ch-3, ch-4, ch-5, ch-6
 - Part 3: ch-7, ch-8, ch-9
-- Part 4: ch-10, ch-11, ch-12
+- Part 4: ch-10, ch-11, ch-12, ch-13
 
 Read the source chapter frontmatter for part titles/descriptions if available, otherwise derive from chapter themes.
 
@@ -199,12 +200,12 @@ Add CSS rules for the new callout variant after the existing callout styles:
 
 #### 5f. `src/lib/book/reading-paths.ts`
 
-Update reading path `chapterIds` arrays to reference the new chapter IDs (ch-1 through ch-12). Redesign paths to match the new chapter themes:
+Update reading path `chapterIds` arrays to reference the new chapter IDs (ch-1 through ch-13). Redesign paths to match the new chapter themes:
 
 - **Getting Started**: ch-1, ch-2 (foundation/blueprint chapters)
 - **Personal Use**: ch-3, ch-5, ch-6 (chapters with `relatedJourney: "personal-use"` or `"power-user"`)
 - **Work Use**: ch-4, ch-7, ch-8, ch-9 (chapters with `relatedJourney: "work-use"` or `developer`)
-- **Complete**: ch-1 through ch-12
+- **Complete**: ch-1 through ch-13
 
 Adjust based on the `relatedJourney` values in chapter frontmatter.
 
@@ -246,7 +247,7 @@ npm run build 2>&1 | tail -20
 ```
 
 The build should produce pages under `/book/` for each chapter. Check for:
-- All 12 chapter routes generated
+- All 13 chapter routes generated
 - No build errors
 - Book index page generated at `/book/index.html`
 
@@ -279,7 +280,7 @@ Migration / Incremental
 - [etc.]
 
 ### Build Status
-✓ All 12 chapter pages generated successfully
+✓ All 13 chapter pages generated successfully
 ```
 
 ## Content Architecture Notes
@@ -290,7 +291,7 @@ Understanding how the book content flows through the system helps diagnose issue
 2. **At build time**, `src/pages/book/[...slug].astro` reads each file via `fs.readFileSync`
 3. **Frontmatter is parsed** to extract metadata (title, subtitle, chapter number, part, reading time, lastGeneratedBy)
 4. **Body is parsed** by `src/lib/book/markdown-parser.ts` into structured `ContentBlock[]` (text, code, callout blocks)
-5. **All 12 chapters** across **4 parts** are serialized as JSON props to the React `BookReader` component
+5. **All 13 chapters** across **4 parts** are serialized as JSON props to the React `BookReader` component
 6. **Images** are referenced as `/book/images/filename.png` in the markdown and served from `public/book/images/`
 
 ## Chapter File Format

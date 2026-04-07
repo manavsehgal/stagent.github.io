@@ -33,7 +33,7 @@ export const READING_PATHS: ReadingPath[] = [
     name: "Complete",
     description: "The full journey from organizational history to the road ahead",
     persona: "developer",
-    chapterIds: ["ch-1", "ch-2", "ch-3", "ch-4", "ch-5", "ch-6", "ch-7", "ch-8", "ch-9", "ch-10", "ch-11", "ch-12"],
+    chapterIds: ["ch-1", "ch-2", "ch-3", "ch-4", "ch-5", "ch-6", "ch-7", "ch-8", "ch-9", "ch-10", "ch-11", "ch-12", "ch-13"],
   },
 ];
 
