@@ -61,6 +61,16 @@ The Providers & Runtimes section manages connections for Anthropic (OAuth or API
 - **Clear All Data** — Removes projects, tasks, workflows, schedules, documents, logs, notifications, and seeded profiles while preserving the underlying setup.
 - **Permission Pattern Curation** — Operators can review and revoke auto-approved command patterns from one place.
 
+## Instance & Upgrades
+
+The **Instance** section surfaces metadata about this installation: the stable `instanceId`, the current instance branch (e.g., `local` for single-clone users, or a named branch for private instances), the upstream remote it tracks, and whether the first-boot bootstrap has completed.
+
+- **Upgrade Detection** — An hourly scheduled poll runs `git fetch` against the upstream remote and compares `HEAD` to `origin/main`. When upstream is ahead, the sidebar shows a small **Upgrade available** badge next to Settings and the Instance card surfaces a "New version available" indicator with the number of commits behind. Detection is `git`-based rather than GitHub REST to avoid rate limits.
+- **Upgrade Session** — Clicking **Start upgrade** opens the upgrade session as a right-side sheet — not a full-page navigation — so you can glance back at your workspace while the upgrade runs. The session is backed by a task row with the `upgrade-assistant` profile, reusing the full execution infrastructure: approval caching, SSE log streaming, and inline conflict resolution via a 3-card cluster (Keep mine / Take theirs / Show diff).
+- **Footer Upgrade Button** — A subtle **Upgrade** button appears in the sidebar footer once an upgrade is available, opening the same upgrade session sheet from any page.
+- **Dev Mode Gate** — When `STAGENT_DEV_MODE=true` is set, the Instance section displays a "Dev mode" banner and the upgrade machinery is intentionally bypassed, protecting contributor repos from having a pre-push hook installed by the bootstrap flow.
+- **Hybrid Licensing** — Local-only features (task execution, workflows, schedules, tables) remain unlimited regardless of license state. Cloud features (sync, marketplace, team sharing) are metered via a `(email, machineFingerprint, instanceId)` tuple so the same user on the same machine counts as one seat across multiple instance branches.
+
 ## How It Works
 
 Settings centralize the trust model for the rest of the product. The authentication section controls how runs are authorized, the permissions section shapes inbox volume, the budget section controls paid runtime expansion, and the data tools make it possible to reset or repopulate the workspace safely.

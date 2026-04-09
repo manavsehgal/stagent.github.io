@@ -29,6 +29,17 @@ Schedules turn repeatable prompts into recurring or one-shot automations with tw
 
 <BrowserFrame src="/screenshots/schedules-detail.png" alt="Prospect Pipeline Pulse schedule detail with firings count, next fire time, and prompt" />
 
+## Orchestration & Safety
+
+Schedule orchestration v2 adds four primitives that keep concurrent schedules, long-running firings, and noisy prompts from destabilizing the workspace.
+
+- **Global Concurrency Cap** — A configurable ceiling on how many scheduled runs can execute simultaneously. When the cap is reached, new firings are queued rather than launched in parallel. An atomic slot-claim primitive ensures that two schedules firing at the exact same tick cannot both slip past the limit. The cap adapts to chat pressure: active streaming chat sessions count against the ceiling so scheduled runs do not contend with interactive work.
+- **Lease Reaper** — Each running firing holds a lease recorded in the slot registry. A background reaper periodically checks for stale leases — firings whose host process died or whose runtime never responded — and reclaims their slots. This is the safety net that prevents hung runs from permanently occupying capacity.
+- **Pre-Flight Collision Warning** — When you save a schedule whose cron expression overlaps with an existing schedule (both would fire in the same minute on the same day), the form shows a warning banner listing the conflicting schedules. Collisions are not blocked — you see the conflict before committing so you can spread the load if desired.
+- **Per-Schedule Turn Budget** — The **Max agent steps per run** field caps the number of agent actions (messages, tool calls, sub-responses) allowed in a single firing. The runtime enforces this as a hard limit and emits an explicit `failure_reason` if the budget is exceeded. A streak counter grants one grace breach before a schedule is auto-paused, so a single over-budget run does not kill a stable schedule.
+- **Manual Execute with Force-Bypass** — The schedule detail view exposes a manual execute action that runs the schedule once, immediately, without waiting for the next tick. Manual runs honor the concurrency cap by default; power users can force-bypass the cap for urgent one-off runs, with the bypass recorded in the audit ledger.
+- **Firing Metrics for Tuning** — Every firing writes a row capturing start time, end time, steps consumed, tool calls made, and terminal reason. This is the forensic trail for tuning turn budgets and spotting runaway prompts.
+
 ## How It Works
 
 The list view is the automation roster. It shows cadence, firing count, and lifecycle state so operators can quickly see what is still running and what has already expired or been paused.

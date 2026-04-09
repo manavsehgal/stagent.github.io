@@ -50,6 +50,14 @@ A Mayor agent plans the work. 2–5 Worker agents execute in parallel with indep
 
 **Example**: Mayor plans code audit → Workers review auth, API, DB, and tests → Refinery merges findings
 
+## Step Delays — Drip Sequences & Cooldowns
+
+Insert pure time-delay steps between agent steps with the **Add Delay** button in the workflow creation form. Delays accept compact durations like `30m`, `2h`, `3d`, or `1w` and pause execution before the next step runs.
+
+The execution model is **schedule-based, not sleep-based**: the delay is persisted in `workflows.resume_at` and the scheduler resumes the workflow when the time is up. This means delays survive process restarts — a 3-day cooldown will resume correctly even if the dev server is stopped and restarted in between. Resume is atomic and idempotent: the scheduler and a manual "Resume Now" click cannot double-fire the same delay.
+
+Step delays are the primitive behind drip email campaigns, staggered onboarding sequences, and cooldown windows between automated actions.
+
 <BrowserFrame src="/screenshots/workflows-blueprints.png" alt="Blueprint gallery with 12 template cards, domain tabs, and Create Custom button" />
 
 The Templates tab isolates reusable workflow patterns, while the Runs tab shows active and completed workflow executions with their current status.

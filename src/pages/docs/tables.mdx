@@ -58,6 +58,15 @@ The create form lets you define a table name, description, project assignment, a
 
 <BrowserFrame src="/screenshots/tables-create-form-filled.png" alt="Create Table form with name, description, project selection, and column definitions" />
 
+### Bulk Row Enrichment
+
+Enrich every matching row in a table by generating a loop workflow that iterates over rows and writes results back via a `postAction`. Trigger it two ways:
+
+- **From chat:** ask *"enrich the Leads table with a one-line company summary for each row"* — the `enrich_table` chat tool plans a loop workflow scoped to the matching rows.
+- **From the Tables API:** `POST /api/tables/:id/enrich` with a prompt, target column, and optional row filter.
+
+Each iteration binds the current row's fields as `{{row.field}}` in the prompt template, so the agent sees only that row's context. Execution is sequential (not parallel) to keep spend predictable, and the loop is idempotent — already-populated cells are skipped on re-run so you can safely resume an interrupted enrichment. The generated workflow appears in the Workflows list so you can watch progress, pause, or inspect per-row results.
+
 ---
 
 ## Use Cases

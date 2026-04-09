@@ -1,20 +1,5 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
-
-const docsPages = [
-  { href: '/docs/dashboard/', label: 'Dashboard' },
-  { href: '/docs/tasks/', label: 'Task Execution' },
-  { href: '/docs/projects/', label: 'Projects' },
-  { href: '/docs/agents/', label: 'Agent Integration' },
-  { href: '/docs/profiles/', label: 'Profiles' },
-  { href: '/docs/inbox/', label: 'Human-in-the-Loop' },
-  { href: '/docs/monitoring/', label: 'Monitoring' },
-  { href: '/docs/costs/', label: 'Cost & Usage' },
-  { href: '/docs/workflows/', label: 'Workflows' },
-  { href: '/docs/documents/', label: 'Documents' },
-  { href: '/docs/schedules/', label: 'Schedules' },
-  { href: '/docs/settings/', label: 'Settings' },
-];
 ---
 <div id="nav-wrapper" class="fixed top-0 left-0 right-0 z-40 transition-[background-color,backdrop-filter] duration-300">
   <nav id="main-nav" aria-label="Main navigation" class="border-b border-transparent transition-[border-color] duration-300">
@@ -65,27 +50,12 @@ const docsPages = [
       >
         Projects
       </a>
-      <div class="relative group inline-flex items-center">
-        <a
-          href="/docs/"
-          class="font-mono text-xs tracking-widest text-text-muted hover:text-primary transition-colors"
-        >
-          Docs
-        </a>
-        <!-- Dropdown -->
-        <div class="absolute top-full right-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-[opacity,visibility] duration-200">
-          <div class="bg-surface-raised border border-border rounded-lg shadow-xl py-2 min-w-[200px]">
-            {docsPages.map(({ href, label }) => (
-              <a
-                href={href}
-                class="block px-4 py-2 text-sm text-text-muted hover:text-primary hover:bg-surface-overlay transition-colors"
-              >
-                {label}
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
+      <a
+        href="/docs/"
+        class="font-mono text-xs tracking-widest text-text-muted hover:text-primary transition-colors"
+      >
+        Docs
+      </a>
       <a
         href="/docs/api/"
         class="font-mono text-xs tracking-widest text-text-muted hover:text-primary transition-colors"
@@ -136,10 +106,6 @@ const docsPages = [
       <a href="/projects/" class="font-mono text-sm text-text-muted hover:text-primary transition-colors py-2">Projects</a>
       <a href="/docs/" class="font-mono text-sm text-text-muted hover:text-primary transition-colors py-2">Docs</a>
       <a href="/docs/api/" class="font-mono text-sm text-text-muted hover:text-primary transition-colors py-2">API</a>
-      <hr class="border-border" />
-      {docsPages.map(({ href, label }) => (
-        <a href={href} class="text-sm text-text-muted hover:text-primary transition-colors py-1 pl-4">{label}</a>
-      ))}
       <hr class="border-border" />
       <div class="flex items-center justify-between py-2">
         <span class="font-mono text-sm text-text-muted">Theme</span>
