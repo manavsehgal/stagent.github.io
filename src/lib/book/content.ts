@@ -15,6 +15,7 @@ export const CHAPTER_SLUG_MAP: Record<string, string> = {
   "ch-11": "ch-11-the-machine-that-builds-machines",
   "ch-12": "ch-12-the-road-ahead",
   "ch-13": "ch-13-the-wealth-manager",
+  "ch-14": "ch-14-the-meta-program",
 };
 
 export const PARTS: BookPart[] = [
@@ -185,6 +186,17 @@ export const CHAPTERS: BookChapter[] = [
     readingTime: 16,
     wordCount: 3976,
     relatedDocs: ["workflows", "profiles", "schedules"],
+    sections: [],
+  },
+  {
+    id: "ch-14",
+    number: 14,
+    title: "The Meta-Program",
+    subtitle: "When the System You Are Using Is Also the System You Are Building",
+    part: PARTS[3],
+    readingTime: 16,
+    wordCount: 4182,
+    relatedDocs: ["workflows", "profiles", "schedules", "blueprints", "instance-bootstrap"],
     sections: [],
   },
 ];
