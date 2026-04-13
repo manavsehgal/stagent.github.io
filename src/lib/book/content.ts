@@ -195,7 +195,7 @@ export const CHAPTERS: BookChapter[] = [
     subtitle: "When the System You Are Using Is Also the System You Are Building",
     part: PARTS[3],
     readingTime: 16,
-    wordCount: 4182,
+    wordCount: 4352,
     relatedDocs: ["workflows", "profiles", "schedules", "blueprints", "instance-bootstrap"],
     sections: [],
   },

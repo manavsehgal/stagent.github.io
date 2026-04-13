@@ -69,11 +69,10 @@ The **Instance** section surfaces metadata about this installation: the stable `
 - **Upgrade Session** — Clicking **Start upgrade** opens the upgrade session as a right-side sheet — not a full-page navigation — so you can glance back at your workspace while the upgrade runs. The session is backed by a task row with the `upgrade-assistant` profile, reusing the full execution infrastructure: approval caching, SSE log streaming, and inline conflict resolution via a 3-card cluster (Keep mine / Take theirs / Show diff).
 - **Footer Upgrade Button** — A subtle **Upgrade** button appears in the sidebar footer once an upgrade is available, opening the same upgrade session sheet from any page.
 - **Dev Mode Gate** — When `STAGENT_DEV_MODE=true` is set, the Instance section displays a "Dev mode" banner and the upgrade machinery is intentionally bypassed, protecting contributor repos from having a pre-push hook installed by the bootstrap flow.
-- **Hybrid Licensing** — Local-only features (task execution, workflows, schedules, tables) remain unlimited regardless of license state. Cloud features (sync, marketplace, team sharing) are metered via a `(email, machineFingerprint, instanceId)` tuple so the same user on the same machine counts as one seat across multiple instance branches.
 
 ## How It Works
 
-Settings centralize the trust model for the rest of the product. The authentication section controls how runs are authorized, the permissions section shapes inbox volume, the budget section controls paid runtime expansion, and the data tools make it possible to reset or repopulate the workspace safely.
+Settings centralize the trust model for the rest of the product. The authentication section controls how runs are authorized, the permissions section shapes inbox volume, the budget section controls runtime expansion, and the data tools make it possible to reset or repopulate the workspace safely.
 
 The visible grouping also keeps operational choices legible. You do not have to remember where an approval rule lives, which runtime is authenticated, or why paid work is blocked; all of those controls stay explicit on one screen.
 

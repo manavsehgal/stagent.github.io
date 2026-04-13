@@ -406,3 +406,56 @@
 - Roadmap scope expanded by 49 features (149 → 198), driven by app-builder and marketplace vision
 - 4 new agent profiles added, growing the built-in catalog to 56
 - Hours/feature dropped to 5.7 (from ~5.5 implied last snapshot), sustaining remarkable efficiency
+
+## [2026-04-13 10:10] Metrics Snapshot — Community Edition Pivot
+
+| Category | Metric | Value |
+|----------|--------|-------|
+| LOC | TypeScript (production) | 97,735 |
+| LOC | TypeScript (tests) | 14,787 |
+| LOC | **Total** | **127,103** |
+| Tests | Vitest | 810 |
+| Tests | **Total** | **810** |
+| Git | Commits | 432 |
+| Git | Hours elapsed | 901.5 |
+| Git | Commits/hour | 0.48 |
+| Git | LOC/hour | 141 |
+| Velocity | Calendar days | 37 |
+| Velocity | Active dev days | 35 |
+| Velocity | Commits/day (calendar) | 11.7 |
+| Velocity | Commits/day (active) | 12.3 |
+| Velocity | LOC/day (calendar) | 3,435 |
+| Velocity | LOC/day (active) | 3,632 |
+| Velocity | Features/day (calendar) | 4.0 |
+| Velocity | Features/day (active) | 4.2 |
+| Velocity | LOC/commit | 294 |
+| Velocity | LOC/feature | 858 |
+| Velocity | Tests/feature | 5.5 |
+| Velocity | Hours/feature | 6.1 |
+| Features | Completed | 148/198 |
+| Infra | API routes | 151 |
+| Infra | DB tables | 45 |
+| Infra | UI components | 292 |
+| Infra | Pages | 38 |
+| Infra | Agent profiles | 56 |
+| Business | Workflow blueprints | 13 |
+| Business | Built-in agent profiles | 21 |
+| Business | Runtime providers | 6 |
+| Business | Workflow patterns | 6 |
+| Business | Channel integrations | 3 |
+| Business | Permission presets | 4 |
+| Business | Table templates | 76 |
+
+### Trend (vs 2026-04-12 — community edition pivot)
+- ↓ -12,375 LOC (139,478 → 127,103) — marketplace, licensing, cloud sync code removed
+- ↓ -195 tests (1,005 → 810) — marketplace/licensing tests removed
+- ↓ -5 completed features (153 → 148) — app marketplace features rolled back
+- ↓ -22 API routes (173 → 151) — licensing, marketplace, sync, telemetry routes removed
+- ↓ -4 pages (42 → 38) — marketplace UI pages removed
+- +22 commits (410 → 432)
+
+### Notes
+- Community edition pivot (v0.10.0): removed subscription tiers, Stripe billing, Supabase cloud, telemetry, marketplace
+- LOC decreased because code was deliberately removed, not because work was lost
+- All features now free and unlimited — no feature gating, no cloud dependency, zero telemetry
+- Product is 100% local-first with Apache 2.0 open source license

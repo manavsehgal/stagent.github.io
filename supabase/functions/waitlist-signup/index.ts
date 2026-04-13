@@ -163,7 +163,7 @@ async function sendConfirmationEmail(email: string, token: string) {
     body: JSON.stringify({
       from: "Stagent <team@stagent.io>",
       to: [email],
-      subject: "Confirm your Stagent waitlist spot",
+      subject: "Confirm your Stagent founding membership",
       text: confirmationEmailText(confirmUrl),
     }),
   });
@@ -178,14 +178,14 @@ async function sendConfirmationEmail(email: string, token: string) {
 function confirmationEmailText(confirmUrl: string): string {
   return `Hi,
 
-You requested early access to Stagent -- the operating system
-for AI-native business. Stagent orchestrates AI agents
-across your entire business with governance, visibility, and cost controls
-that keep you in charge.
+Thanks for becoming a Stagent founding member. Stagent is the
+open-source operating system for AI-native business -- orchestrating
+AI agents across your entire company with governance, visibility,
+and cost controls that keep you in charge.
 
-Open Source | Local-First | 5 Runtimes | Human-in-the-Loop
+Open Source | Local-First | 6 Runtimes | 100% Free | Human-in-the-Loop
 
-Confirm your spot:
+Confirm your membership:
 
 ${confirmUrl}
 

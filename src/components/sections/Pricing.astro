@@ -1,281 +1,94 @@
 ---
 import SectionLabel from '../ui/SectionLabel.astro';
-import WaitlistForm from '../ui/WaitlistForm.astro';
 
-const tiers = [
-  {
-    name: 'Community',
-    monthlyPrice: 'Free',
-    monthlyPeriod: 'forever',
-    annualPrice: 'Free',
-    annualPeriod: 'forever',
-    annualSaving: '',
-    target: 'For individual developers and evaluation',
-    features: [
-      'Full local workspace',
-      '56+ agent profiles',
-      '37 workflow patterns',
-      'Human-in-the-loop governance',
-      '6 AI runtimes',
-      '50 agent memories per profile',
-      '5 active schedules',
-    ],
-    cta: { type: 'command' as const, text: 'npx stagent' },
-  },
-  {
-    name: 'Solo',
-    monthlyPrice: '$19',
-    monthlyPeriod: '/mo',
-    annualPrice: '$190',
-    annualPeriod: '/yr',
-    annualSaving: 'Save $38',
-    target: 'For power users who need room to grow',
-    features: [
-      'Everything in Community',
-      '200 memories per profile',
-      '20 active schedules',
-      '180-day history retention',
-      'Import marketplace blueprints',
-      'Telemetry benchmarks',
-    ],
-    cta: {
-      type: 'link' as const,
-      text: 'Get Solo',
-      monthlyHref: 'https://buy.stagent.io/b/fZufZjgKC4q9azrgDzdwc06',
-      annualHref: 'https://buy.stagent.io/b/bJe00l1PI7Cl7nf1IFdwc0b',
-    },
-  },
-  {
-    name: 'Operator',
-    monthlyPrice: '$49',
-    monthlyPeriod: '/mo',
-    annualPrice: '$490',
-    annualPeriod: '/yr',
-    annualSaving: 'Save $98',
-    target: 'For professionals running AI at scale',
-    badge: 'Most Popular',
-    highlight: true,
-    features: [
-      'Everything in Solo',
-      'ROI analytics dashboard',
-      'Encrypted cloud sync & backup',
-      'Publish to marketplace (70/30 split)',
-      '500 memories per profile',
-      '50 active schedules',
-      '1-year history retention',
-    ],
-    cta: {
-      type: 'link' as const,
-      text: 'Get Operator',
-      monthlyHref: 'https://buy.stagent.io/b/aFa4gB0LE9Kt22Vevrdwc07',
-      annualHref: 'https://buy.stagent.io/b/bJe6oJdyq2i1bDv1IFdwc0a',
-    },
-  },
-  {
-    name: 'Scale',
-    monthlyPrice: '$99',
-    monthlyPeriod: '/mo',
-    annualPrice: '$990',
-    annualPeriod: '/yr',
-    annualSaving: 'Save $198',
-    target: 'For teams — no limits, no compromises',
-    features: [
-      'Everything in Operator',
-      'Unlimited memories & schedules',
-      'Unlimited history retention',
-      'Featured marketplace listings (80/20 split)',
-      'Priority support',
-    ],
-    cta: {
-      type: 'link' as const,
-      text: 'Get Scale',
-      monthlyHref: 'https://buy.stagent.io/b/9B628t2TM5udazr72Zdwc08',
-      annualHref: 'https://buy.stagent.io/b/dRmfZjbqicWF5f7873dwc09',
-    },
-  },
-];
-
-const creatorBenefits = [
-  'Publish workflow blueprints to the marketplace',
-  'Earn 70% revenue share (80% on Scale)',
-  '$10 minimum payout threshold',
-  'Install count and success rate tracking',
-  'Creator analytics in your dashboard',
-  'Featured placement for Scale tier publishers',
+const features = [
+  'Unlimited agent memories',
+  'Unlimited schedules',
+  '365-day history retention',
+  'Analytics dashboard',
+  '6 AI runtimes',
+  '56+ agent profiles',
+  '37 workflow patterns',
+  'Human-in-the-loop governance',
+  'Cost metering & budgets',
+  'Multi-channel delivery',
+  'Chat with @ mentions',
+  'Browser automation',
 ];
 ---
 <section id="pricing" class="py-24 px-6 scroll-mt-10">
-  <div class="max-w-6xl mx-auto">
+  <div class="max-w-4xl mx-auto">
     <div class="text-center mb-14">
-      <SectionLabel text="Pricing" />
-      <h2 data-animate class="mt-4 mb-4">Start Free. Scale When You're Ready.</h2>
+      <SectionLabel text="Open Source" />
+      <h2 data-animate class="mt-4 mb-4">Everything. Free. No Limits.</h2>
       <p data-animate class="text-text-muted max-w-2xl mx-auto" style="transition-delay: 80ms">
-        Community edition is free forever with no feature removal. Premium tiers add cloud sync, expanded limits, analytics, and marketplace access.
+        No tiers, no paywalls, no feature gates. Every capability, unlimited, Apache 2.0.
       </p>
-
-      <!-- Billing toggle -->
-      <div data-animate class="flex justify-center mt-8" style="transition-delay: 120ms">
-        <div id="billing-toggle" class="inline-flex items-center gap-1 rounded-lg border border-border p-0.5">
-          <button
-            type="button"
-            data-period="monthly"
-            class="billing-tab px-4 py-1.5 text-xs font-mono tracking-wider uppercase rounded-md transition-colors bg-primary text-surface"
-          >
-            Monthly
-          </button>
-          <button
-            type="button"
-            data-period="annual"
-            class="billing-tab px-4 py-1.5 text-xs font-mono tracking-wider uppercase rounded-md transition-colors text-text-muted hover:text-text"
-          >
-            Annual
-          </button>
-        </div>
-      </div>
     </div>
 
-    <!-- Product tiers -->
-    <div data-animate-stagger class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
-      {tiers.map(({ name, monthlyPrice, monthlyPeriod, annualPrice, annualPeriod, annualSaving, target, badge, highlight, features, cta }) => (
-        <div
-          data-animate
-          class:list={[
-            'relative rounded-xl border p-6 flex flex-col',
-            highlight ? 'border-primary/40 bg-primary/[0.03]' : 'border-border bg-surface-raised',
-          ]}
-        >
-          {badge && (
-            <span class="absolute -top-2.5 right-4 text-[10px] font-mono tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-primary text-surface">
-              {badge}
-            </span>
-          )}
-
-          <div class="mb-5">
-            <div class="text-xs font-mono tracking-widest uppercase text-text-muted/60 mb-1">{name}</div>
-            <div class="flex items-baseline gap-1">
-              <span class="text-3xl font-bold" data-monthly-price={monthlyPrice} data-annual-price={annualPrice}>{monthlyPrice}</span>
-              <span class="text-sm text-text-muted" data-monthly-period={monthlyPeriod} data-annual-period={annualPeriod}>{monthlyPeriod}</span>
-            </div>
-            {annualSaving && (
-              <div class="flex items-center gap-2 mt-1 billing-saving hidden">
-                <span class="text-[10px] font-mono text-primary">{annualSaving}</span>
-              </div>
-            )}
-            <div class="text-xs text-text-muted mt-2">{target}</div>
+    <div data-animate class="rounded-xl border border-primary/30 bg-surface-raised p-8 md:p-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-8">
+        {features.map((feature) => (
+          <div class="flex items-center gap-2 text-sm text-text-muted">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary shrink-0">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            {feature}
           </div>
+        ))}
+      </div>
 
-          <ul class="flex-1 space-y-2.5 mb-6">
-            {features.map((feature) => (
-              <li class="flex items-start gap-2 text-sm text-text-muted">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary shrink-0 mt-0.5">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
-                {feature}
-              </li>
-            ))}
-          </ul>
-
-          {cta.type === 'command' ? (
-            <div class="font-mono text-sm text-center py-2.5 rounded-md border border-primary/30 bg-primary/[0.06] text-primary">
-              {cta.text}
-            </div>
-          ) : (
-            <a
-              href={'monthlyHref' in cta ? cta.monthlyHref : '#waitlist'}
-              data-monthly-href={'monthlyHref' in cta ? cta.monthlyHref : undefined}
-              data-annual-href={'annualHref' in cta ? cta.annualHref : undefined}
-              class:list={[
-                'block text-center font-mono text-xs tracking-[0.15em] uppercase py-2.5 rounded-md transition-colors',
-                highlight
-                  ? 'bg-primary text-surface hover:bg-primary/90'
-                  : 'border border-border text-text-muted hover:border-primary hover:text-primary',
-              ]}
+      <!-- Terminal CTA -->
+      <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-text-muted mb-2 text-center">
+        Get started now
+      </p>
+      <div class="max-w-sm mx-auto">
+        <div class="relative border border-primary/30 rounded-lg primary-pulse overflow-hidden">
+          <div class="flex items-center justify-between px-4 py-2 border-b border-primary/10">
+            <span class="font-mono text-[10px] uppercase tracking-widest text-text-muted">Terminal</span>
+            <button
+              id="pricing-copy-btn"
+              class="p-1 rounded text-text-muted/50 hover:text-text-muted transition-colors"
+              aria-label="Copy to clipboard"
             >
-              {cta.text}
-            </a>
-          )}
-        </div>
-      ))}
-    </div>
-
-    <!-- Marketplace creator pitch -->
-    <div id="advisory" data-animate class="scroll-mt-24 rounded-2xl bg-[--color-text] text-[--color-surface] p-8 md:p-10">
-      <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 items-end">
-        <div>
-          <span class="inline-block font-mono text-[10px] tracking-[0.2em] uppercase text-[--color-surface]/50 mb-3">Marketplace</span>
-          <h3 class="text-xl font-semibold mb-3 text-[--color-surface]">Build Once, Earn Repeatedly</h3>
-          <p class="text-sm text-[--color-surface]/70 leading-relaxed mb-5">
-            Publish your best workflow blueprints to the Stagent marketplace. Other users pay for your templates — you earn 70-80% of every sale. Your operational expertise, monetized.
-          </p>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {creatorBenefits.map((benefit) => (
-              <div class="flex items-center gap-2 text-sm text-[--color-surface]/60">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-                {benefit}
-              </div>
-            ))}
+              <svg id="pricing-copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              <svg id="pricing-check-icon" class="hidden" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </button>
+          </div>
+          <div class="bg-surface-raised px-4 py-3">
+            <pre class="font-mono text-lg sm:text-xl leading-relaxed text-text-muted"><span class="text-primary">$</span> <code id="pricing-code">npx stagent</code><span class="hero-cursor">▌</span></pre>
           </div>
         </div>
-
-        <div class="w-full md:w-72 rounded-xl bg-[--color-surface]/10 p-5">
-          <p class="text-xs font-mono text-[--color-surface]/50 text-center mb-3 tracking-wider uppercase">Start publishing</p>
-          <p class="text-sm text-[--color-surface]/60 text-center mb-4">
-            Available on Operator ($49/mo) and Scale ($99/mo) tiers
-          </p>
-          <WaitlistForm
-            variant="cta"
-            id="advisory-form"
-            source="pricing-marketplace"
-            buttonText="Get Early Access"
-            successMessage="We'll notify you when marketplace publishing launches."
-          />
-        </div>
       </div>
+
+      <p class="text-center text-xs text-text-muted/60 mt-4 font-mono">
+        Zero config. Local SQLite. Own your data.
+      </p>
     </div>
   </div>
 </section>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const tabs = document.querySelectorAll<HTMLButtonElement>('.billing-tab');
-    const prices = document.querySelectorAll<HTMLElement>('[data-monthly-price]');
-    const periods = document.querySelectorAll<HTMLElement>('[data-monthly-period]');
-    const savings = document.querySelectorAll<HTMLElement>('.billing-saving');
-    const links = document.querySelectorAll<HTMLAnchorElement>('[data-monthly-href]');
-
-    function switchPeriod(period: 'monthly' | 'annual') {
-      tabs.forEach((tab) => {
-        const isActive = tab.dataset.period === period;
-        tab.classList.toggle('bg-primary', isActive);
-        tab.classList.toggle('text-surface', isActive);
-        tab.classList.toggle('text-text-muted', !isActive);
-        tab.classList.toggle('hover:text-text', !isActive);
-      });
-
-      prices.forEach((el) => {
-        el.textContent = period === 'annual' ? el.dataset.annualPrice! : el.dataset.monthlyPrice!;
-      });
-
-      periods.forEach((el) => {
-        el.textContent = period === 'annual' ? el.dataset.annualPeriod! : el.dataset.monthlyPeriod!;
-      });
-
-      savings.forEach((el) => {
-        el.classList.toggle('hidden', period !== 'annual');
-      });
-
-      links.forEach((el) => {
-        const href = period === 'annual' ? el.dataset.annualHref : el.dataset.monthlyHref;
-        if (href) el.href = href;
-      });
-    }
-
-    tabs.forEach((tab) => {
-      tab.addEventListener('click', () => {
-        switchPeriod(tab.dataset.period as 'monthly' | 'annual');
-      });
+  function initPricingCopy() {
+    document.getElementById('pricing-copy-btn')?.addEventListener('click', async () => {
+      const code = document.getElementById('pricing-code')?.textContent ?? '';
+      await navigator.clipboard.writeText(code);
+      const copyIcon = document.getElementById('pricing-copy-icon');
+      const checkIcon = document.getElementById('pricing-check-icon');
+      copyIcon?.classList.add('hidden');
+      checkIcon?.classList.remove('hidden');
+      setTimeout(() => {
+        copyIcon?.classList.remove('hidden');
+        checkIcon?.classList.add('hidden');
+      }, 2000);
     });
-  });
+  }
+
+  initPricingCopy();
+  document.addEventListener('astro:after-swap', initPricingCopy);
 </script>
