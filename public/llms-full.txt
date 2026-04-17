@@ -5,7 +5,7 @@
 URL: https://stagent.io
 License: Apache 2.0
 Status: Pre-alpha (active development)
-Founder: Manav
+Founder: Manav Sehgal
 GitHub: https://github.com/stagent
 
 ---
@@ -82,7 +82,7 @@ Nine projects across five technology waves, encompassing 270K+ lines of code, 30
 
 *Multi-Agent Autonomous Orchestration for Long-Horizon Task Completion*
 
-**Author:** Manav · March 2026
+**Author:** Manav Sehgal · March 2026
 **URL:** https://stagent.io/research/
 
 ### Abstract

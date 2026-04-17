@@ -25,7 +25,7 @@ Stagent is the harness layer for multi-agent autonomous orchestration. It is a T
 
 - License: Apache 2.0
 - Stage: Pre-alpha (active development)
-- Founder: Manav
+- Founder: Manav Sehgal
 
 ## Documentation
 

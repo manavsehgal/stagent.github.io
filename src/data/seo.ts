@@ -17,7 +17,7 @@ export const ORGANIZATION = {
   description: SITE.description,
   founder: {
     '@type': 'Person',
-    name: 'Manav',
+    name: 'Manav Sehgal',
   },
   foundingDate: '2026',
   sameAs: [

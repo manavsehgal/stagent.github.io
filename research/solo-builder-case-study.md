@@ -2,7 +2,7 @@
 
 **A Solo Founder's Wealth Manager Build on Stagent — From Zero to Prediction Market Integration in 11 Commits**
 
-**Author:** Manav
+**Author:** Manav Sehgal
 **Published:** April 2026
 **Category:** Applied Research — AI-Native Software Development
 **Word Count:** ~5,500
@@ -369,6 +369,6 @@ The wealth management domain is well-suited to Stagent's primitives: structured 
 
 ---
 
-*© 2026 Manav. Apache 2.0.*
+*© 2026 Manav Sehgal. Apache 2.0.*
 
 *This research paper was written using the same platform it describes. The case study data is derived from git version control. Every metric is traceable to a specific commit in the build history.*

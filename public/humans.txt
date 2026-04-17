@@ -1,6 +1,6 @@
 /* TEAM */
 
-Founder: Manav
+Founder: Manav Sehgal
 Site: https://stagent.io
 GitHub: https://github.com/stagent
 
