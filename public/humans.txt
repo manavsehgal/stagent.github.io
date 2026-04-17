@@ -2,7 +2,7 @@
 
 Founder: Manav Sehgal
 Site: https://stagent.io
-GitHub: https://github.com/stagent
+GitHub: https://github.com/manavsehgal/stagent
 
 /* TECHNOLOGY */
 

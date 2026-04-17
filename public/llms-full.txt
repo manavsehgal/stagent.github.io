@@ -6,7 +6,7 @@ URL: https://stagent.io
 License: Apache 2.0
 Status: Pre-alpha (active development)
 Founder: Manav Sehgal
-GitHub: https://github.com/stagent
+GitHub: https://github.com/manavsehgal/stagent
 
 ---
 

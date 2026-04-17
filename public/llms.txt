@@ -34,7 +34,7 @@ Stagent is the harness layer for multi-agent autonomous orchestration. It is a T
 
 ## Source Code
 
-- [GitHub Organization](https://github.com/stagent)
+- [GitHub Repository](https://github.com/manavsehgal/stagent)
 
 ## Optional
 
