@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Chrome (for book PDF generation)
+      - name: Install Chrome (for OG image generation)
         id: setup-chrome
         uses: browser-actions/setup-chrome@v1
         with:

@@ -13,11 +13,9 @@ Syncs the "AI Native" book content (chapter markdown files + images) from the St
 
 | Artifact | Lives in | Rebuilt how |
 |----------|----------|-------------|
-| Per-chapter "by Manav Sehgal" byline | `src/components/book/book-reader.tsx` (chapter header) and `src/pages/book/print.astro` | Hardcoded, not from frontmatter |
-| Chapter 1 CC BY-NC 4.0 preface | Conditional render in `book-reader.tsx` when `chapter.number === 1`, plus `print.astro` | Hardcoded, not from frontmatter |
+| Per-chapter "by Manav Sehgal" byline | `src/components/book/book-reader.tsx` (chapter header) | Hardcoded, not from frontmatter |
+| Chapter 1 CC BY-NC 4.0 preface | Conditional render in `book-reader.tsx` when `chapter.number === 1` | Hardcoded, not from frontmatter |
 | CC BY-NC 4.0 in Book JSON-LD | `src/layouts/BookLayout.astro` + `src/pages/book/index.astro` (`license` field) | Static |
-| `/ai-native.pdf` download | Generated post-build by `scripts/generate-book-pdf.ts` → `dist/ai-native.pdf` | `npm run build:pdf` |
-| Print route | `src/pages/book/print.astro` (concatenates all chapters with cover page) | Rebuilt on `npm run build` |
 
 **Do not add an `author` frontmatter field to chapter markdown** — attribution is intentionally centralized in the reader template so the product repo can stay author-agnostic and we don't have to replicate the byline 14× in markdown.
 
@@ -362,29 +360,13 @@ Confirm the chapter byline and Chapter 1 copyright preface still render. Because
 - Chapter title header shows "by Manav Sehgal" in small muted type beneath the subtitle.
 - Chapter 1 body starts with a "© 2026 Manav Sehgal. Licensed under Creative Commons Attribution-NonCommercial 4.0 (CC BY-NC 4.0)." preface.
 - `dist/book/<chapter>/index.html` contains `"license":"https://creativecommons.org/licenses/by-nc/4.0/"` in the JSON-LD block.
-- `dist/book/print/index.html` exists and contains "by Manav Sehgal" 14+ times (one per chapter plus the cover page).
 
 Quick grep check:
 ```bash
 grep -c '"license":"https://creativecommons.org/licenses/by-nc/4.0/"' dist/book/index.html
-grep -c 'by Manav Sehgal' dist/book/print/index.html
 ```
 
-If these counts are 0 or the UI doesn't render the attribution, the reader template was inadvertently reverted — restore from git.
-
-### Step 6e: Regenerate Book PDF
-
-The book ships as both a web reader and a downloadable PDF at `/ai-native.pdf`. After a content sync, the PDF must be regenerated so readers who download it get the current chapters.
-
-```bash
-npm run build:pdf
-```
-
-The script starts a static server against `dist/`, drives headless Chrome to `/book/print/`, and writes `dist/ai-native.pdf`. Expected size is ~1–2 MB — if it balloons past 10 MB something is leaking site CSS/backgrounds into the print route and needs fixing in `src/pages/book/print.astro`.
-
-Requires a local Chrome/Chromium executable. On macOS the script looks at standard Application paths; on CI, the deploy workflow installs Chrome via `browser-actions/setup-chrome@v1` and passes the path via `CHROME_PATH`.
-
-Note: `npm run build` already invokes `build:pdf` as a post-build step. A standalone `build:pdf` run is useful when iterating on the print route without a full Astro rebuild.
+If the count is 0 or the UI doesn't render the attribution, the reader template was inadvertently reverted — restore from git.
 
 ### Step 7: Report Changes
 
@@ -410,7 +392,6 @@ Migration / Incremental
 
 ### Build Status
 ✓ All chapter pages generated successfully
-✓ PDF regenerated — dist/ai-native.pdf (~X MB, Y pages)
 
 ### ⚠️ Drift Audit
 (Include any unresolved "N chapters" hits from Step 6b, or "none" if clean.)
