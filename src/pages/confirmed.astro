@@ -9,7 +9,7 @@ const error = Astro.url.searchParams.get('error');
 const isError = status === 'error';
 const isAlready = status === 'already';
 ---
-<Layout title="Founding Member Confirmed — Stagent" noindex={true}>
+<Layout title="Subscription Confirmed — Stagent" noindex={true}>
   <Nav />
   <main class="min-h-[70vh] flex items-center justify-center px-6">
     <div class="max-w-md text-center">
@@ -36,8 +36,8 @@ const isAlready = status === 'already';
         {isError
           ? (error || 'Something went wrong. Please try again.')
           : isAlready
-            ? "You're already a Stagent founding member."
-            : "You're a founding member. Watch your inbox for product updates, roadmap previews, and community highlights."}
+            ? "You're subscribed to AI Native research."
+            : "You'll hear from us when new chapters, articles, or lab updates ship."}
       </p>
 
       <div class="flex flex-col gap-3 items-center">

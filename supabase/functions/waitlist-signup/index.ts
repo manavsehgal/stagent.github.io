@@ -163,7 +163,7 @@ async function sendConfirmationEmail(email: string, token: string) {
     body: JSON.stringify({
       from: "Stagent <team@stagent.io>",
       to: [email],
-      subject: "Confirm your Stagent founding membership",
+      subject: "Confirm your AI Native research subscription",
       text: confirmationEmailText(confirmUrl),
     }),
   });
@@ -178,16 +178,15 @@ async function sendConfirmationEmail(email: string, token: string) {
 function confirmationEmailText(confirmUrl: string): string {
   return `Hi,
 
-Thanks for becoming a Stagent founding member. Stagent is the
-open-source operating system for AI-native business -- orchestrating
-AI agents across your entire company with governance, visibility,
-and cost controls that keep you in charge.
+Thanks for subscribing to AI Native research -- a personal research
+project by Manav Sehgal exploring what an AI-native operating system
+looks like.
 
-Open Source | Local-First | 6 Runtimes | 100% Free | Human-in-the-Loop
-
-Confirm your membership:
+Click the link below to confirm your email:
 
 ${confirmUrl}
+
+You'll get updates when new chapters, articles, or lab releases ship.
 
 This link expires in 7 days. If you didn't request this,
 you can safely ignore this email.
