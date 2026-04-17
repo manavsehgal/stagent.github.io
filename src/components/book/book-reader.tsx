@@ -5,7 +5,6 @@ import {
   BookmarkMinus,
   ChevronLeft,
   ChevronRight,
-  Download,
   List,
   Settings2,
   Clock,
@@ -429,15 +428,6 @@ export function BookReader({
               <BookmarkPlus className="h-4 w-4" />
             )}
           </button>
-
-          <a
-            href="/ai-native.pdf"
-            className="h-8 w-8 flex items-center justify-center rounded-md hover:bg-surface-raised transition-colors cursor-pointer text-text-muted hover:text-text no-underline"
-            title="Download PDF"
-            aria-label="Download PDF"
-          >
-            <Download className="h-4 w-4" />
-          </a>
 
           <button
             onClick={() => setSettingsOpen(true)}
