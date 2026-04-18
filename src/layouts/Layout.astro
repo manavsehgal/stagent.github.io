@@ -16,8 +16,8 @@ interface Props {
 }
 
 const {
-  title = 'ainative — AI Native for everyone',
-  description = 'AI Native for everyone. A personal research by Manav Sehgal into building and working with AI agents — open source, local-first, and free.',
+  title = 'AI Native Business — ainative',
+  description = 'AI Native Business — the book and the companion software. A personal research project by Manav Sehgal into building AI-native businesses. Open source, local-first, and free.',
   ogImage = '/og-image.png',
   ogType = 'website',
   noindex = false,
@@ -109,8 +109,10 @@ const jsonLdSchemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
 
     <!-- App icons -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="64x64" href="/ainative-s-64.png" />
-    <link rel="apple-touch-icon" sizes="128x128" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="128x128" href="/ainative-s-128.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <!-- Manifest -->
     <link rel="manifest" href="/manifest.json" />
